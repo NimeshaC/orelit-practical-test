@@ -1,16 +1,17 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
-import { configuration } from '../config/configuration';
-import { validationSchema } from '../config/validationSchema';
-import { ShopsModule } from './shops/shops.module';
-import { ProductModule } from './product/product.module';
-import { PromotionModule } from './promotion/promotion.module';
-import { CartModule } from './cart/cart.module';
-import { OrderModule } from './order/order.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { dataSourceOptions } from 'db/data-sorce';
+import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { ConfigModule } from "@nestjs/config";
+import { configuration } from "../config/configuration";
+import { validationSchema } from "../config/validationSchema";
+import { ProductModule } from "./product/product.module";
+import { PromotionModule } from "./promotion/promotion.module";
+import { CartModule } from "./cart/cart.module";
+import { OrderModule } from "./order/order.module";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { dataSourceOptions } from "db/data-sorce";
+import { ShopModule } from "./shop/shop.module";
+import { OrderItemModule } from './order-item/order-item.module';
 
 @Module({
   imports: [
@@ -24,6 +25,12 @@ import { dataSourceOptions } from 'db/data-sorce';
       ...dataSourceOptions,
       autoLoadEntities: true,
     }),
+    ProductModule,
+    PromotionModule,
+    CartModule,
+    OrderModule,
+    ShopModule,
+    OrderItemModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -10,6 +10,6 @@ export class CreateShopDto {
   shop_phone: string;
 
   @IsString()
-  @IsOptional()
-  admin_id: string;
+  @IsNotEmpty()
+  shop_address: string;
 }

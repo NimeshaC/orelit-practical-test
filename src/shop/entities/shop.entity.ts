@@ -1,5 +1,7 @@
 import { Exclude } from "class-transformer";
+import { Product } from "src/product/entities/product.entity";
 import { Promotion } from "src/promotion/entities/promotion.entity";
+import { User } from "src/user/entities/user.entity";
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -7,6 +9,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  ManyToOne,
 } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 
@@ -22,7 +25,7 @@ export class Shop {
   shop_phone: string;
 
   @Column()
-  admin_id: string;
+  shop_address: string;
 
   @CreateDateColumn()
   @Exclude()
@@ -30,6 +33,12 @@ export class Shop {
 
   @OneToMany(() => Promotion, (promotion) => promotion.shop)
   promotions: Promotion[];
+
+  @ManyToOne(() => User, (user) => user.shops)
+  user: User;
+
+  @OneToMany(() => Product, (product) => product.shop)
+  products: Product[];
 
   @UpdateDateColumn()
   @Exclude()

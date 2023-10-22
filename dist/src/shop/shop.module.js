@@ -12,12 +12,13 @@ const shop_service_1 = require("./shop.service");
 const shop_controller_1 = require("./shop.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const shop_entity_1 = require("./entities/shop.entity");
+const user_module_1 = require("../user/user.module");
 let ShopModule = class ShopModule {
 };
 exports.ShopModule = ShopModule;
 exports.ShopModule = ShopModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([shop_entity_1.Shop])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([shop_entity_1.Shop]), user_module_1.UserModule],
         controllers: [shop_controller_1.ShopController],
         providers: [shop_service_1.ShopService],
         exports: [shop_service_1.ShopService],

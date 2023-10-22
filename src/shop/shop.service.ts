@@ -5,18 +5,32 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Shop } from "./entities/shop.entity";
 import { ResponseData, generateResponse } from "src/utility/response.utill";
+import { UserService } from "src/user/user.service";
 
 @Injectable()
 export class ShopService {
   constructor(
     @InjectRepository(Shop)
-    private shopRepository: Repository<Shop>
+    private shopRepository: Repository<Shop>,
+    private userService: UserService
   ) {}
 
-  async create(createShopDto: CreateShopDto): Promise<ResponseData<Shop>> {
+  async create(
+    createShopDto: CreateShopDto,
+    userId: string
+  ): Promise<ResponseData<Shop>> {
     try {
-      const shop = await this.shopRepository.save(createShopDto);
-      return generateResponse(true, 200, " Shop created successfully", shop);
+      const user = await this.userService.findOneById(userId);
+
+      if (!user) {
+        throw new BadRequestException("User not found");
+      }
+
+      const shop = await this.shopRepository.save({
+        ...createShopDto,
+        user: user.data,
+      });
+      return generateResponse(true, 200, "Shop created successfully");
     } catch (error) {
       if (error.code == "23505") {
         throw new BadRequestException("Shop already exists");
@@ -28,6 +42,21 @@ export class ShopService {
   async findAll(): Promise<ResponseData<Shop[]>> {
     const shop = await this.shopRepository.find();
     return generateResponse(true, 200, "All Shops", shop);
+  }
+
+  async findAllByUserId(userId: string): Promise<ResponseData<Shop[]>> {
+    try {
+      const user = await this.userService.findOneById(userId);
+      if (!user) {
+        throw new BadRequestException("User not found");
+      }
+      const shop = await this.shopRepository.find({
+        where: { user: { user_id: userId } },
+      });
+      return generateResponse(true, 200, "All Shops", shop);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async findOne(shop_id: string): Promise<ResponseData<Shop>> {

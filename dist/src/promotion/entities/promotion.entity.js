@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Promotion = void 0;
 const class_transformer_1 = require("class-transformer");
 const shop_entity_1 = require("../../shop/entities/shop.entity");
+const user_entity_1 = require("../../user/entities/user.entity");
 const typeorm_1 = require("typeorm");
 const uuid_1 = require("uuid");
 let Promotion = class Promotion {
@@ -48,6 +49,10 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => shop_entity_1.Shop, (shop) => shop.promotions),
     __metadata("design:type", shop_entity_1.Shop)
 ], Promotion.prototype, "shop", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.promotions),
+    __metadata("design:type", user_entity_1.User)
+], Promotion.prototype, "user", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     (0, class_transformer_1.Exclude)(),

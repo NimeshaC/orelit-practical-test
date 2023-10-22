@@ -26,7 +26,7 @@ __decorate([
 ], CreateShopDto.prototype, "shop_phone", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreateShopDto.prototype, "admin_id", void 0);
+], CreateShopDto.prototype, "shop_address", void 0);
 //# sourceMappingURL=create-shop.dto.js.map

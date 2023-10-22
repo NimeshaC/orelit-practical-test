@@ -6,23 +6,34 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from "@nestjs/common";
 import { ShopService } from "./shop.service";
 import { CreateShopDto } from "./dto/create-shop.dto";
 import { UpdateShopDto } from "./dto/update-shop.dto";
 
-@Controller("shops")
+type QueryIds = {
+  userId: string;
+};
+
+@Controller("shop")
 export class ShopController {
   constructor(private readonly shopsService: ShopService) {}
 
   @Post()
-  create(@Body() createShopDto: CreateShopDto) {
-    return this.shopsService.create(createShopDto);
+  create(@Body() createShopDto: CreateShopDto, @Query() QueryIds: QueryIds) {
+    const { userId } = QueryIds;
+    return this.shopsService.create(createShopDto, userId);
   }
 
   @Get()
   findAll() {
     return this.shopsService.findAll();
+  }
+
+  @Get("user/:userId")
+  findAllByUserId(@Param("userId") userId: string) {
+    return this.shopsService.findAllByUserId(userId);
   }
 
   @Get(":id")

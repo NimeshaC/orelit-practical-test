@@ -13,6 +13,8 @@ exports.Product = void 0;
 const typeorm_1 = require("typeorm");
 const class_transformer_1 = require("class-transformer");
 const uuid_1 = require("uuid");
+const shop_entity_1 = require("../../shop/entities/shop.entity");
+const user_entity_1 = require("../../user/entities/user.entity");
 let Product = class Product {
     constructor() {
         this.product_id = (0, uuid_1.v4)();
@@ -20,13 +22,21 @@ let Product = class Product {
 };
 exports.Product = Product;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
     __metadata("design:type", String)
 ], Product.prototype, "product_id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Product.prototype, "product_name", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ unique: true }),
+    __metadata("design:type", String)
+], Product.prototype, "product_code", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Product.prototype, "product_image", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
@@ -36,9 +46,21 @@ __decorate([
     __metadata("design:type", String)
 ], Product.prototype, "price", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Product.prototype, "discounted_price", void 0);
+__decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Product.prototype, "stock_quantity", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => shop_entity_1.Shop, (shop) => shop.products),
+    __metadata("design:type", shop_entity_1.Shop)
+], Product.prototype, "shop", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.products),
+    __metadata("design:type", user_entity_1.User)
+], Product.prototype, "user", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     (0, class_transformer_1.Exclude)(),
@@ -50,7 +72,7 @@ __decorate([
     __metadata("design:type", Date)
 ], Product.prototype, "updatedAt", void 0);
 exports.Product = Product = __decorate([
-    (0, typeorm_1.Entity)('product'),
+    (0, typeorm_1.Entity)("product"),
     __metadata("design:paramtypes", [])
 ], Product);
 //# sourceMappingURL=product.entity.js.map

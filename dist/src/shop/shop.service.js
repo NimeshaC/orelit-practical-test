@@ -18,14 +18,23 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const shop_entity_1 = require("./entities/shop.entity");
 const response_utill_1 = require("../utility/response.utill");
+const user_service_1 = require("../user/user.service");
 let ShopService = class ShopService {
-    constructor(shopRepository) {
+    constructor(shopRepository, userService) {
         this.shopRepository = shopRepository;
+        this.userService = userService;
     }
-    async create(createShopDto) {
+    async create(createShopDto, userId) {
         try {
-            const shop = await this.shopRepository.save(createShopDto);
-            return (0, response_utill_1.generateResponse)(true, 200, " Shop created successfully", shop);
+            const user = await this.userService.findOneById(userId);
+            if (!user) {
+                throw new common_1.BadRequestException("User not found");
+            }
+            const shop = await this.shopRepository.save({
+                ...createShopDto,
+                user: user.data,
+            });
+            return (0, response_utill_1.generateResponse)(true, 200, "Shop created successfully");
         }
         catch (error) {
             if (error.code == "23505") {
@@ -37,6 +46,21 @@ let ShopService = class ShopService {
     async findAll() {
         const shop = await this.shopRepository.find();
         return (0, response_utill_1.generateResponse)(true, 200, "All Shops", shop);
+    }
+    async findAllByUserId(userId) {
+        try {
+            const user = await this.userService.findOneById(userId);
+            if (!user) {
+                throw new common_1.BadRequestException("User not found");
+            }
+            const shop = await this.shopRepository.find({
+                where: { user: { user_id: userId } },
+            });
+            return (0, response_utill_1.generateResponse)(true, 200, "All Shops", shop);
+        }
+        catch (error) {
+            throw error;
+        }
     }
     async findOne(shop_id) {
         try {
@@ -90,6 +114,7 @@ exports.ShopService = ShopService;
 exports.ShopService = ShopService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(shop_entity_1.Shop)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        user_service_1.UserService])
 ], ShopService);
 //# sourceMappingURL=shop.service.js.map

@@ -1,11 +1,15 @@
+import { Product } from "src/product/entities/product.entity";
 import { Promotion } from "src/promotion/entities/promotion.entity";
+import { User } from "src/user/entities/user.entity";
 export declare class Shop {
     shop_id: string;
     shop_name: string;
     shop_phone: string;
-    admin_id: string;
+    shop_address: string;
     createdAt: Date;
     promotions: Promotion[];
+    user: User;
+    products: Product[];
     updatedAt: Date;
     constructor();
 }

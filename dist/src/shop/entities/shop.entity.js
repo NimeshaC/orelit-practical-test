@@ -11,7 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Shop = void 0;
 const class_transformer_1 = require("class-transformer");
+const product_entity_1 = require("../../product/entities/product.entity");
 const promotion_entity_1 = require("../../promotion/entities/promotion.entity");
+const user_entity_1 = require("../../user/entities/user.entity");
 const typeorm_1 = require("typeorm");
 const uuid_1 = require("uuid");
 let Shop = class Shop {
@@ -35,7 +37,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Shop.prototype, "admin_id", void 0);
+], Shop.prototype, "shop_address", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     (0, class_transformer_1.Exclude)(),
@@ -45,6 +47,14 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => promotion_entity_1.Promotion, (promotion) => promotion.shop),
     __metadata("design:type", Array)
 ], Shop.prototype, "promotions", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.shops),
+    __metadata("design:type", user_entity_1.User)
+], Shop.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => product_entity_1.Product, (product) => product.shop),
+    __metadata("design:type", Array)
+], Shop.prototype, "products", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)(),
     (0, class_transformer_1.Exclude)(),

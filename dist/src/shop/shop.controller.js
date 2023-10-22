@@ -21,11 +21,15 @@ let ShopController = class ShopController {
     constructor(shopsService) {
         this.shopsService = shopsService;
     }
-    create(createShopDto) {
-        return this.shopsService.create(createShopDto);
+    create(createShopDto, QueryIds) {
+        const { userId } = QueryIds;
+        return this.shopsService.create(createShopDto, userId);
     }
     findAll() {
         return this.shopsService.findAll();
+    }
+    findAllByUserId(userId) {
+        return this.shopsService.findAllByUserId(userId);
     }
     findOne(id) {
         return this.shopsService.findOne(id);
@@ -41,8 +45,9 @@ exports.ShopController = ShopController;
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_shop_dto_1.CreateShopDto]),
+    __metadata("design:paramtypes", [create_shop_dto_1.CreateShopDto, Object]),
     __metadata("design:returntype", void 0)
 ], ShopController.prototype, "create", null);
 __decorate([
@@ -51,6 +56,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ShopController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)("user/:userId"),
+    __param(0, (0, common_1.Param)("userId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ShopController.prototype, "findAllByUserId", null);
 __decorate([
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),
@@ -74,7 +86,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ShopController.prototype, "remove", null);
 exports.ShopController = ShopController = __decorate([
-    (0, common_1.Controller)("shops"),
+    (0, common_1.Controller)("shop"),
     __metadata("design:paramtypes", [shop_service_1.ShopService])
 ], ShopController);
 //# sourceMappingURL=shop.controller.js.map

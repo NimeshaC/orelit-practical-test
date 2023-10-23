@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional } from "class-validator";
 
 export class CreatePromotionDto {
   @IsString()
@@ -19,9 +19,13 @@ export class CreatePromotionDto {
 
   @IsString()
   @IsNotEmpty()
-  promotion_discount: string;
+  discount_percentage: string;
 
   @IsString()
   @IsOptional()
-  shop_id: string;
+  product_id: string;
+
+  @IsString()
+  @IsOptional()
+  user_id: string;
 }

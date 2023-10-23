@@ -12,4 +12,8 @@ export class CreateShopDto {
   @IsString()
   @IsNotEmpty()
   shop_address: string;
+
+  @IsString()
+  @IsNotEmpty()
+  user_id: string;
 }

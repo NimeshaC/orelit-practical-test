@@ -21,9 +21,8 @@ let ProductController = class ProductController {
     constructor(productService) {
         this.productService = productService;
     }
-    create(createProductDto, QueryIds) {
-        const { shopId, userId } = QueryIds;
-        return this.productService.create(createProductDto, shopId, userId);
+    create(createProductDto) {
+        return this.productService.create(createProductDto);
     }
     findAll() {
         return this.productService.findAll();
@@ -31,8 +30,8 @@ let ProductController = class ProductController {
     findAllByShopId(shopId) {
         return this.productService.findAllByShopId(shopId);
     }
-    findOne(id) {
-        return this.productService.findOne(id);
+    findOneById(id) {
+        return this.productService.findOneById(id);
     }
     update(id, updateProductDto) {
         return this.productService.update(id, updateProductDto);
@@ -45,9 +44,8 @@ exports.ProductController = ProductController;
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_product_dto_1.CreateProductDto, Object]),
+    __metadata("design:paramtypes", [create_product_dto_1.CreateProductDto]),
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "create", null);
 __decorate([
@@ -69,7 +67,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], ProductController.prototype, "findOne", null);
+], ProductController.prototype, "findOneById", null);
 __decorate([
     (0, common_1.Patch)(":id"),
     __param(0, (0, common_1.Param)("id")),

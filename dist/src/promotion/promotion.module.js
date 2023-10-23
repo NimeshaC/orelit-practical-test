@@ -12,15 +12,17 @@ const promotion_service_1 = require("./promotion.service");
 const promotion_controller_1 = require("./promotion.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const promotion_entity_1 = require("./entities/promotion.entity");
-const shop_module_1 = require("../shop/shop.module");
+const user_module_1 = require("../user/user.module");
+const product_module_1 = require("../product/product.module");
 let PromotionModule = class PromotionModule {
 };
 exports.PromotionModule = PromotionModule;
 exports.PromotionModule = PromotionModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([promotion_entity_1.Promotion]), shop_module_1.ShopModule],
+        imports: [typeorm_1.TypeOrmModule.forFeature([promotion_entity_1.Promotion]), product_module_1.ProductModule, user_module_1.UserModule],
         controllers: [promotion_controller_1.PromotionController],
         providers: [promotion_service_1.PromotionService],
+        exports: [promotion_service_1.PromotionService],
     })
 ], PromotionModule);
 //# sourceMappingURL=promotion.module.js.map

@@ -21,9 +21,8 @@ let ShopController = class ShopController {
     constructor(shopsService) {
         this.shopsService = shopsService;
     }
-    create(createShopDto, QueryIds) {
-        const { userId } = QueryIds;
-        return this.shopsService.create(createShopDto, userId);
+    create(createShopDto) {
+        return this.shopsService.create(createShopDto);
     }
     findAll() {
         return this.shopsService.findAll();
@@ -45,9 +44,8 @@ exports.ShopController = ShopController;
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_shop_dto_1.CreateShopDto, Object]),
+    __metadata("design:paramtypes", [create_shop_dto_1.CreateShopDto]),
     __metadata("design:returntype", void 0)
 ], ShopController.prototype, "create", null);
 __decorate([

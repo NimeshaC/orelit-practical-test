@@ -46,7 +46,12 @@ __decorate([
 ], CreateProductDto.prototype, "product_code", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreateProductDto.prototype, "discounted_price", void 0);
+], CreateProductDto.prototype, "user_id", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], CreateProductDto.prototype, "shop_id", void 0);
 //# sourceMappingURL=create-product.dto.js.map

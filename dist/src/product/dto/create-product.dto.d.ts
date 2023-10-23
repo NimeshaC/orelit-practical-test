@@ -5,5 +5,6 @@ export declare class CreateProductDto {
     stock_quantity: string;
     product_image: string;
     product_code: string;
-    discounted_price: string | null;
+    user_id: string;
+    shop_id: string;
 }

@@ -14,6 +14,14 @@ export class UserService {
     private userRepository: Repository<User>
   ) {}
 
+  //find user by email
+  async findOneByEmail(email: string): Promise<User | null> {
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+    return user || null;
+  }
+
   //encrypt password
   async hashPassword(password: string) {
     const saltRounds = 10;

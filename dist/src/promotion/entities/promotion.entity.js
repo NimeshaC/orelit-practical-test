@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Promotion = void 0;
 const class_transformer_1 = require("class-transformer");
-const shop_entity_1 = require("../../shop/entities/shop.entity");
+const product_entity_1 = require("../../product/entities/product.entity");
 const user_entity_1 = require("../../user/entities/user.entity");
 const typeorm_1 = require("typeorm");
 const uuid_1 = require("uuid");
@@ -44,11 +44,13 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Promotion.prototype, "promotion_discount", void 0);
+], Promotion.prototype, "discount_percentage", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => shop_entity_1.Shop, (shop) => shop.promotions),
-    __metadata("design:type", shop_entity_1.Shop)
-], Promotion.prototype, "shop", void 0);
+    (0, typeorm_1.ManyToOne)(() => product_entity_1.Product, (product) => product.promotions, {
+        onDelete: "CASCADE",
+    }),
+    __metadata("design:type", product_entity_1.Product)
+], Promotion.prototype, "product", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.promotions),
     __metadata("design:type", user_entity_1.User)

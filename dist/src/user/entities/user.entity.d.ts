@@ -1,3 +1,4 @@
+import { Cart } from "src/cart/entities/cart.entity";
 import { Product } from "src/product/entities/product.entity";
 import { Promotion } from "src/promotion/entities/promotion.entity";
 import { Shop } from "src/shop/entities/shop.entity";
@@ -14,5 +15,6 @@ export declare class User {
     shops: Shop[];
     promotions: Promotion[];
     products: Product[];
+    cart: Cart;
     constructor();
 }

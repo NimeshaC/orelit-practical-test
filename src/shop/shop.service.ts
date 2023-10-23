@@ -15,18 +15,15 @@ export class ShopService {
     private userService: UserService
   ) {}
 
-  async create(
-    createShopDto: CreateShopDto,
-    userId: string
-  ): Promise<ResponseData<Shop>> {
+  async create(createShopDto: CreateShopDto): Promise<ResponseData<Shop>> {
     try {
-      const user = await this.userService.findOneById(userId);
+      const user = await this.userService.findOneById(createShopDto.user_id);
 
       if (!user) {
         throw new BadRequestException("User not found");
       }
 
-      const shop = await this.shopRepository.save({
+      await this.shopRepository.save({
         ...createShopDto,
         user: user.data,
       });

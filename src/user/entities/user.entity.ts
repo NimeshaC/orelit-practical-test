@@ -1,4 +1,5 @@
 import { Exclude } from "class-transformer";
+import { Cart } from "src/cart/entities/cart.entity";
 import { Product } from "src/product/entities/product.entity";
 import { Promotion } from "src/promotion/entities/promotion.entity";
 import { Shop } from "src/shop/entities/shop.entity";
@@ -51,6 +52,9 @@ export class User {
 
   @OneToMany(() => Product, (product) => product.user)
   products: Product[];
+
+  @OneToMany(() => Cart, (cart) => cart.user)
+  cart: Cart;
 
   constructor() {
     this.user_id = uuidv4();

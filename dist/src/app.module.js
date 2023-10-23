@@ -22,6 +22,7 @@ const data_sorce_1 = require("../db/data-sorce");
 const shop_module_1 = require("./shop/shop.module");
 const order_item_module_1 = require("./order-item/order-item.module");
 const user_module_1 = require("./user/user.module");
+const auth_module_1 = require("./auth/auth.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -45,6 +46,7 @@ exports.AppModule = AppModule = __decorate([
             shop_module_1.ShopModule,
             order_item_module_1.OrderItemModule,
             user_module_1.UserModule,
+            auth_module_1.AuthModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

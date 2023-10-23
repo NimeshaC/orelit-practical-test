@@ -11,8 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cart = void 0;
 const class_transformer_1 = require("class-transformer");
+const user_entity_1 = require("../../user/entities/user.entity");
 const typeorm_1 = require("typeorm");
 const uuid_1 = require("uuid");
+const cart_item_entity_1 = require("./cart-item.entity");
 let Cart = class Cart {
     constructor() {
         this.cart_id = (0, uuid_1.v4)();
@@ -20,21 +22,25 @@ let Cart = class Cart {
 };
 exports.Cart = Cart;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
     __metadata("design:type", String)
 ], Cart.prototype, "cart_id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ default: "0" }),
     __metadata("design:type", String)
-], Cart.prototype, "product_id", void 0);
+], Cart.prototype, "total_quantity", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ default: "0" }),
     __metadata("design:type", String)
-], Cart.prototype, "quantity", void 0);
+], Cart.prototype, "total_price", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Cart.prototype, "user_id", void 0);
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.cart),
+    __metadata("design:type", user_entity_1.User)
+], Cart.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => cart_item_entity_1.CartItem, (cart_item) => cart_item.cart),
+    __metadata("design:type", Array)
+], Cart.prototype, "cart_items", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     (0, class_transformer_1.Exclude)(),
@@ -46,7 +52,7 @@ __decorate([
     __metadata("design:type", Date)
 ], Cart.prototype, "updatedAt", void 0);
 exports.Cart = Cart = __decorate([
-    (0, typeorm_1.Entity)('cart'),
+    (0, typeorm_1.Entity)("cart"),
     __metadata("design:paramtypes", [])
 ], Cart);
 //# sourceMappingURL=cart.entity.js.map

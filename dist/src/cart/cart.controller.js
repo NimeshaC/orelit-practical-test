@@ -22,19 +22,19 @@ let CartController = class CartController {
         this.cartService = cartService;
     }
     create(createCartDto) {
-        return this.cartService.create(createCartDto);
+        return this.cartService.createCart(createCartDto);
     }
-    findAll() {
-        return this.cartService.findAll();
-    }
-    findOne(id) {
-        return this.cartService.findOne(+id);
+    findOneById(id) {
+        return this.cartService.findCartById(id);
     }
     update(id, updateCartDto) {
-        return this.cartService.update(+id, updateCartDto);
+        return this.cartService.updateCart(id, updateCartDto);
     }
-    remove(id) {
-        return this.cartService.remove(+id);
+    removeCart(id) {
+        return this.cartService.removeCart(id);
+    }
+    removeCartItem(id) {
+        return this.cartService.removeCartItem(id);
     }
 };
 exports.CartController = CartController;
@@ -46,35 +46,36 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CartController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], CartController.prototype, "findAll", null);
-__decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], CartController.prototype, "findOne", null);
+], CartController.prototype, "findOneById", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Patch)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_cart_dto_1.UpdateCartDto]),
     __metadata("design:returntype", void 0)
 ], CartController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], CartController.prototype, "remove", null);
+], CartController.prototype, "removeCart", null);
+__decorate([
+    (0, common_1.Delete)("/item/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], CartController.prototype, "removeCartItem", null);
 exports.CartController = CartController = __decorate([
-    (0, common_1.Controller)('cart'),
+    (0, common_1.Controller)("cart"),
     __metadata("design:paramtypes", [cart_service_1.CartService])
 ], CartController);
 //# sourceMappingURL=cart.controller.js.map

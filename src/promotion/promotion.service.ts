@@ -5,7 +5,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Promotion } from "./entities/promotion.entity";
 import { ResponseData, generateResponse } from "src/utility/response.utill";
-import { ShopService } from "src/shop/shop.service";
+import { UserService } from "src/user/user.service";
+import { ProductService } from "src/product/product.service";
 
 @Injectable()
 export class PromotionService {
@@ -13,19 +14,31 @@ export class PromotionService {
     @InjectRepository(Promotion)
     private promotionRepository: Repository<Promotion>,
 
-    private shopService: ShopService
+    private productService: ProductService,
+    readonly userService: UserService
   ) {}
 
   async create(
-    createPromotionDto: CreatePromotionDto,
-    shopId: string
+    createPromotionDto: CreatePromotionDto
   ): Promise<ResponseData<Promotion>> {
     try {
-      const shop = await this.shopService.findOne(shopId);
-      if (!shop.data) {
-        throw new BadRequestException("Shop not found");
+      const user = await this.userService.findOneById(
+        createPromotionDto.user_id
+      );
+      if (!user) {
+        throw new BadRequestException("User not found");
       }
-      const promotion = await this.promotionRepository.save(createPromotionDto);
+      const product = await this.productService.findOneById(
+        createPromotionDto.product_id
+      );
+      if (!product) {
+        throw new BadRequestException("Product not found");
+      }
+      const promotion = await this.promotionRepository.save({
+        ...createPromotionDto,
+        product: product.data,
+        user: user.data,
+      });
       return generateResponse(
         true,
         200,
@@ -54,6 +67,23 @@ export class PromotionService {
         throw new BadRequestException("Promotion not found");
       }
       return generateResponse(true, 200, "Promotion", promotion);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findAllByProductId(
+    productId: string
+  ): Promise<ResponseData<Promotion[]>> {
+    try {
+      const product = await this.productService.findOneById(productId);
+      if (!product) {
+        throw new BadRequestException("Product not found");
+      }
+      const promotion = await this.promotionRepository.find({
+        where: { product: { product_id: productId } },
+      });
+      return generateResponse(true, 200, "All Promotions", promotion);
     } catch (error) {
       throw error;
     }

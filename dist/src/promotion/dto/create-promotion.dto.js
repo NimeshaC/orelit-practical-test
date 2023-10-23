@@ -38,10 +38,15 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreatePromotionDto.prototype, "promotion_discount", void 0);
+], CreatePromotionDto.prototype, "discount_percentage", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], CreatePromotionDto.prototype, "shop_id", void 0);
+], CreatePromotionDto.prototype, "product_id", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreatePromotionDto.prototype, "user_id", void 0);
 //# sourceMappingURL=create-promotion.dto.js.map

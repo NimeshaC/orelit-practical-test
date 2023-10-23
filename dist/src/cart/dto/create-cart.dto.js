@@ -18,20 +18,15 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreateCartDto.prototype, "cart_id", void 0);
+], CreateCartDto.prototype, "quantity", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreateCartDto.prototype, "quantity", void 0);
+], CreateCartDto.prototype, "product_id", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateCartDto.prototype, "user_id", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], CreateCartDto.prototype, "product_id", void 0);
 //# sourceMappingURL=create-cart.dto.js.map

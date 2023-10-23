@@ -10,13 +10,26 @@ exports.CartModule = void 0;
 const common_1 = require("@nestjs/common");
 const cart_service_1 = require("./cart.service");
 const cart_controller_1 = require("./cart.controller");
+const typeorm_1 = require("@nestjs/typeorm");
+const cart_entity_1 = require("./entities/cart.entity");
+const user_module_1 = require("../user/user.module");
+const cart_item_entity_1 = require("./entities/cart-item.entity");
+const product_module_1 = require("../product/product.module");
+const promotion_module_1 = require("../promotion/promotion.module");
 let CartModule = class CartModule {
 };
 exports.CartModule = CartModule;
 exports.CartModule = CartModule = __decorate([
     (0, common_1.Module)({
+        imports: [
+            typeorm_1.TypeOrmModule.forFeature([cart_entity_1.Cart, cart_item_entity_1.CartItem]),
+            user_module_1.UserModule,
+            product_module_1.ProductModule,
+            promotion_module_1.PromotionModule,
+        ],
         controllers: [cart_controller_1.CartController],
         providers: [cart_service_1.CartService],
+        exports: [cart_service_1.CartService],
     })
 ], CartModule);
 //# sourceMappingURL=cart.module.js.map

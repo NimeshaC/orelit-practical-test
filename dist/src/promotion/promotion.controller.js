@@ -21,14 +21,17 @@ let PromotionController = class PromotionController {
     constructor(promotionService) {
         this.promotionService = promotionService;
     }
-    create(createPromotionDto, shopId) {
-        return this.promotionService.create(createPromotionDto, shopId);
+    create(createPromotionDto) {
+        return this.promotionService.create(createPromotionDto);
     }
     findAll() {
         return this.promotionService.findAll();
     }
     findOne(id) {
         return this.promotionService.findOne(id);
+    }
+    findAllByShopId(productId) {
+        return this.promotionService.findAllByProductId(productId);
     }
     update(id, updatePromotionDto) {
         return this.promotionService.update(id, updatePromotionDto);
@@ -41,9 +44,8 @@ exports.PromotionController = PromotionController;
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_promotion_dto_1.CreatePromotionDto, String]),
+    __metadata("design:paramtypes", [create_promotion_dto_1.CreatePromotionDto]),
     __metadata("design:returntype", void 0)
 ], PromotionController.prototype, "create", null);
 __decorate([
@@ -59,6 +61,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PromotionController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Get)("product/:productId"),
+    __param(0, (0, common_1.Param)("productId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], PromotionController.prototype, "findAllByShopId", null);
 __decorate([
     (0, common_1.Patch)(":id"),
     __param(0, (0, common_1.Param)("id")),

@@ -1,4 +1,4 @@
-import { Shop } from "src/shop/entities/shop.entity";
+import { Product } from "src/product/entities/product.entity";
 import { User } from "src/user/entities/user.entity";
 export declare class Promotion {
     promotion_id: string;
@@ -6,8 +6,8 @@ export declare class Promotion {
     promotion_description: string;
     promotion_start_date: string;
     promotion_end_date: string;
-    promotion_discount: string;
-    shop: Shop;
+    discount_percentage: string;
+    product: Product;
     user: User;
     createdAt: Date;
     updatedAt: Date;

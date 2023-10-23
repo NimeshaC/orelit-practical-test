@@ -1,4 +1,5 @@
 import { Exclude } from "class-transformer";
+import { Product } from "src/product/entities/product.entity";
 import { Shop } from "src/shop/entities/shop.entity";
 import { User } from "src/user/entities/user.entity";
 import {
@@ -29,10 +30,12 @@ export class Promotion {
   promotion_end_date: string;
 
   @Column()
-  promotion_discount: string;
+  discount_percentage: string;
 
-  @ManyToOne(() => Shop, (shop) => shop.promotions)
-  shop: Shop;
+  @ManyToOne(() => Product, (product) => product.promotions, {
+    onDelete: "CASCADE",
+  })
+  product: Product;
 
   @ManyToOne(() => User, (user) => user.promotions)
   user: User;

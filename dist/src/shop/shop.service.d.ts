@@ -8,7 +8,7 @@ export declare class ShopService {
     private shopRepository;
     private userService;
     constructor(shopRepository: Repository<Shop>, userService: UserService);
-    create(createShopDto: CreateShopDto, userId: string): Promise<ResponseData<Shop>>;
+    create(createShopDto: CreateShopDto): Promise<ResponseData<Shop>>;
     findAll(): Promise<ResponseData<Shop[]>>;
     findAllByUserId(userId: string): Promise<ResponseData<Shop[]>>;
     findOne(shop_id: string): Promise<ResponseData<Shop>>;

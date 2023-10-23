@@ -12,22 +12,13 @@ import { ProductService } from "./product.service";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 
-type QueryIds = {
-  shopId: string;
-  userId: string;
-};
-
 @Controller("product")
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  create(
-    @Body() createProductDto: CreateProductDto,
-    @Query() QueryIds: QueryIds
-  ) {
-    const { shopId, userId } = QueryIds;
-    return this.productService.create(createProductDto, shopId, userId);
+  create(@Body() createProductDto: CreateProductDto) {
+    return this.productService.create(createProductDto);
   }
 
   @Get()
@@ -41,8 +32,8 @@ export class ProductController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.productService.findOne(id);
+  findOneById(@Param("id") id: string) {
+    return this.productService.findOneById(id);
   }
 
   @Patch(":id")

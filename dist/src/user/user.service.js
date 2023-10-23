@@ -23,6 +23,12 @@ let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
+    async findOneByEmail(email) {
+        const user = await this.userRepository.findOne({
+            where: { email },
+        });
+        return user || null;
+    }
     async hashPassword(password) {
         const saltRounds = 10;
         const hashedPassword = await new Promise((resolve, reject) => {

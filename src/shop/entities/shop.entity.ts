@@ -1,6 +1,5 @@
 import { Exclude } from "class-transformer";
 import { Product } from "src/product/entities/product.entity";
-import { Promotion } from "src/promotion/entities/promotion.entity";
 import { User } from "src/user/entities/user.entity";
 import {
   PrimaryGeneratedColumn,
@@ -30,9 +29,6 @@ export class Shop {
   @CreateDateColumn()
   @Exclude()
   createdAt: Date;
-
-  @OneToMany(() => Promotion, (promotion) => promotion.shop)
-  promotions: Promotion[];
 
   @ManyToOne(() => User, (user) => user.shops)
   user: User;

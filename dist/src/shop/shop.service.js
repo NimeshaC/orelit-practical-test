@@ -24,13 +24,13 @@ let ShopService = class ShopService {
         this.shopRepository = shopRepository;
         this.userService = userService;
     }
-    async create(createShopDto, userId) {
+    async create(createShopDto) {
         try {
-            const user = await this.userService.findOneById(userId);
+            const user = await this.userService.findOneById(createShopDto.user_id);
             if (!user) {
                 throw new common_1.BadRequestException("User not found");
             }
-            const shop = await this.shopRepository.save({
+            await this.shopRepository.save({
                 ...createShopDto,
                 user: user.data,
             });

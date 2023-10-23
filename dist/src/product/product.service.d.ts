@@ -10,10 +10,10 @@ export declare class ProductService {
     private shopService;
     readonly userService: UserService;
     constructor(productRepository: Repository<Product>, shopService: ShopService, userService: UserService);
-    create(createProductDto: CreateProductDto, shopId: string, userId: string): Promise<ResponseData<Product>>;
+    create(createProductDto: CreateProductDto): Promise<ResponseData<Product>>;
     findAll(): Promise<ResponseData<Product[]>>;
     findAllByShopId(shopId: string): Promise<ResponseData<Product[]>>;
-    findOne(product_id: string): Promise<ResponseData<Product>>;
+    findOneById(product_id: string): Promise<ResponseData<Product>>;
     update(product_id: string, updateProductDto: UpdateProductDto): Promise<ResponseData<Product | null>>;
     remove(product_id: string): Promise<ResponseData<Product | null>>;
 }

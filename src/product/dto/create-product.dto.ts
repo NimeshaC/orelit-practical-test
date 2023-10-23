@@ -26,6 +26,10 @@ export class CreateProductDto {
   product_code: string;
 
   @IsString()
-  @IsOptional()
-  discounted_price: string | null;
+  @IsNotEmpty()
+  user_id: string;
+
+  @IsString()
+  @IsNotEmpty()
+  shop_id: string;
 }

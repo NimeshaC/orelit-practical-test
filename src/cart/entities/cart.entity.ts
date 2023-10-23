@@ -1,26 +1,33 @@
-import { Exclude } from 'class-transformer';
+import { Exclude } from "class-transformer";
+import { User } from "src/user/entities/user.entity";
 import {
   PrimaryGeneratedColumn,
   Column,
   Entity,
   CreateDateColumn,
   UpdateDateColumn,
-} from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
+  ManyToOne,
+  OneToMany,
+} from "typeorm";
+import { v4 as uuidv4 } from "uuid";
+import { CartItem } from "./cart-item.entity";
 
-@Entity('cart')
+@Entity("cart")
 export class Cart {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   cart_id: string;
 
-  @Column()
-  product_id: string;
+  @Column({ default: "0" })
+  total_quantity: string;
 
-  @Column()
-  quantity: string;
+  @Column({ default: "0" })
+  total_price: string;
 
-  @Column()
-  user_id: string;
+  @ManyToOne(() => User, (user) => user.cart)
+  user: User;
+
+  @OneToMany(() => CartItem, (cart_item) => cart_item.cart)
+  cart_items: CartItem[];
 
   @CreateDateColumn()
   @Exclude()

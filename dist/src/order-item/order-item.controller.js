@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderItemController = void 0;
 const common_1 = require("@nestjs/common");
 const order_item_service_1 = require("./order-item.service");
-const create_order_item_dto_1 = require("./dto/create-order-item.dto");
-const update_order_item_dto_1 = require("./dto/update-order-item.dto");
+const create_order_item_dto_1 = require("../order/entities/create-order-item.dto");
+const update_order_item_dto_1 = require("../order/entities/update-order-item.dto");
 let OrderItemController = class OrderItemController {
     constructor(orderItemService) {
         this.orderItemService = orderItemService;
@@ -52,29 +52,29 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrderItemController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], OrderItemController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Patch)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_order_item_dto_1.UpdateOrderItemDto]),
     __metadata("design:returntype", void 0)
 ], OrderItemController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], OrderItemController.prototype, "remove", null);
 exports.OrderItemController = OrderItemController = __decorate([
-    (0, common_1.Controller)('order-item'),
+    (0, common_1.Controller)("order-item"),
     __metadata("design:paramtypes", [order_item_service_1.OrderItemService])
 ], OrderItemController);
 //# sourceMappingURL=order-item.controller.js.map

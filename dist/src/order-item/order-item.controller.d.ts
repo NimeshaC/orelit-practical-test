@@ -1,6 +1,6 @@
-import { OrderItemService } from './order-item.service';
-import { CreateOrderItemDto } from './dto/create-order-item.dto';
-import { UpdateOrderItemDto } from './dto/update-order-item.dto';
+import { OrderItemService } from "./order-item.service";
+import { CreateOrderItemDto } from "../order/entities/create-order-item.dto";
+import { UpdateOrderItemDto } from "../order/entities/update-order-item.dto";
 export declare class OrderItemController {
     private readonly orderItemService;
     constructor(orderItemService: OrderItemService);

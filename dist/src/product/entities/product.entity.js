@@ -15,6 +15,8 @@ const class_transformer_1 = require("class-transformer");
 const uuid_1 = require("uuid");
 const shop_entity_1 = require("../../shop/entities/shop.entity");
 const user_entity_1 = require("../../user/entities/user.entity");
+const cart_item_entity_1 = require("../../cart/entities/cart-item.entity");
+const promotion_entity_1 = require("../../promotion/entities/promotion.entity");
 let Product = class Product {
     constructor() {
         this.product_id = (0, uuid_1.v4)();
@@ -46,21 +48,25 @@ __decorate([
     __metadata("design:type", String)
 ], Product.prototype, "price", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], Product.prototype, "discounted_price", void 0);
-__decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Product.prototype, "stock_quantity", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => shop_entity_1.Shop, (shop) => shop.products),
+    (0, typeorm_1.ManyToOne)(() => shop_entity_1.Shop, (shop) => shop.products, { onDelete: "CASCADE" }),
     __metadata("design:type", shop_entity_1.Shop)
 ], Product.prototype, "shop", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.products),
     __metadata("design:type", user_entity_1.User)
 ], Product.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => promotion_entity_1.Promotion, (promotion) => promotion.product),
+    __metadata("design:type", Array)
+], Product.prototype, "promotions", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => cart_item_entity_1.CartItem, (cart_item) => cart_item.product),
+    __metadata("design:type", Array)
+], Product.prototype, "cart_items", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     (0, class_transformer_1.Exclude)(),

@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { CreateOrderItemDto } from './dto/create-order-item.dto';
-import { UpdateOrderItemDto } from './dto/update-order-item.dto';
+import { Injectable } from "@nestjs/common";
+import { CreateOrderItemDto } from "../order/entities/create-order-item.dto";
+import { UpdateOrderItemDto } from "../order/entities/update-order-item.dto";
 
 @Injectable()
 export class OrderItemService {
   create(createOrderItemDto: CreateOrderItemDto) {
-    return 'This action adds a new orderItem';
+    return "This action adds a new orderItem";
   }
 
   findAll() {

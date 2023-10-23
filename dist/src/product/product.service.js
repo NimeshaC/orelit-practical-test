@@ -26,17 +26,17 @@ let ProductService = class ProductService {
         this.shopService = shopService;
         this.userService = userService;
     }
-    async create(createProductDto, shopId, userId) {
+    async create(createProductDto) {
         try {
-            const user = await this.userService.findOneById(userId);
+            const user = await this.userService.findOneById(createProductDto.user_id);
             if (!user) {
                 throw new common_1.BadRequestException("User not found");
             }
-            const shop = await this.shopService.findOne(shopId);
+            const shop = await this.shopService.findOne(createProductDto.shop_id);
             if (!shop.data) {
                 throw new common_1.BadRequestException("Shop not found");
             }
-            const product = await this.productRepository.save({
+            await this.productRepository.save({
                 ...createProductDto,
                 shop: shop.data,
                 user: user.data,
@@ -69,7 +69,7 @@ let ProductService = class ProductService {
             throw error;
         }
     }
-    async findOne(product_id) {
+    async findOneById(product_id) {
         try {
             const product = await this.productRepository.findOne({
                 where: { product_id },

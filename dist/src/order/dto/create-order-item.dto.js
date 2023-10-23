@@ -9,34 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateOrderDto = void 0;
+exports.CreateOrderItemDto = void 0;
 const class_validator_1 = require("class-validator");
-class CreateOrderDto {
+class CreateOrderItemDto {
 }
-exports.CreateOrderDto = CreateOrderDto;
+exports.CreateOrderItemDto = CreateOrderItemDto;
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreateOrderDto.prototype, "cart_id", void 0);
+], CreateOrderItemDto.prototype, "product_id", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateOrderItemDto.prototype, "order_item_status", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreateOrderDto.prototype, "user_id", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], CreateOrderDto.prototype, "payment_method", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], CreateOrderDto.prototype, "order_address", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], CreateOrderDto.prototype, "order_phone", void 0);
-//# sourceMappingURL=create-order.dto.js.map
+], CreateOrderItemDto.prototype, "order_id", void 0);
+//# sourceMappingURL=create-order-item.dto.js.map

@@ -1,5 +1,6 @@
 import { Exclude } from "class-transformer";
 import { Cart } from "src/cart/entities/cart.entity";
+import { Order } from "src/order/entities/order.entity";
 import { Product } from "src/product/entities/product.entity";
 import { Promotion } from "src/promotion/entities/promotion.entity";
 import { Shop } from "src/shop/entities/shop.entity";
@@ -52,6 +53,9 @@ export class User {
 
   @OneToMany(() => Product, (product) => product.user)
   products: Product[];
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 
   @OneToMany(() => Cart, (cart) => cart.user)
   cart: Cart;

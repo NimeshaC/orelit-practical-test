@@ -17,6 +17,7 @@ const shop_entity_1 = require("../../shop/entities/shop.entity");
 const user_entity_1 = require("../../user/entities/user.entity");
 const cart_item_entity_1 = require("../../cart/entities/cart-item.entity");
 const promotion_entity_1 = require("../../promotion/entities/promotion.entity");
+const order_item_entity_1 = require("../../order/entities/order-item.entity");
 let Product = class Product {
     constructor() {
         this.product_id = (0, uuid_1.v4)();
@@ -67,6 +68,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => cart_item_entity_1.CartItem, (cart_item) => cart_item.product),
     __metadata("design:type", Array)
 ], Product.prototype, "cart_items", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => order_item_entity_1.OrderItem, (orderItem) => orderItem.product),
+    __metadata("design:type", Array)
+], Product.prototype, "order_item", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     (0, class_transformer_1.Exclude)(),

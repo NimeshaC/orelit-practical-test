@@ -37,7 +37,7 @@ let CartService = class CartService {
             });
             const product = await this.productService.findOneById(createCartItemDto.product_id);
             if (!product) {
-                throw new Error("Product not found");
+                throw new common_1.BadRequestException("Product not found");
             }
             const getPromotions = await this.promotionService.findAllByProductId(createCartItemDto.product_id);
             const activePromotion = getPromotions.data.filter((promotion) => {
@@ -80,7 +80,7 @@ let CartService = class CartService {
                 where: { cart_item_id: cartItemId },
             });
             if (!cartItem) {
-                throw new Error("CartItem not found");
+                throw new common_1.BadRequestException("CartItem not found");
             }
             const product = await this.productService.findOneById(updateCartItemDto.product_id);
             if (!product) {
@@ -127,7 +127,7 @@ let CartService = class CartService {
         try {
             const user = await this.userService.findOneById(createCartDto.user_id);
             if (!user) {
-                throw new Error("User not found");
+                throw new common_1.BadRequestException("User not found");
             }
             const cart = await this.cartRepository.save({
                 ...createCartDto,
@@ -166,7 +166,7 @@ let CartService = class CartService {
                 where: { cart_id: cartId },
             });
             if (!cart) {
-                throw new Error("Cart not found");
+                throw new common_1.BadRequestException("Cart not found");
             }
             const cartItems = await this.cartItemRepository.find({
                 where: { cart: { cart_id: cartId } },
@@ -187,11 +187,11 @@ let CartService = class CartService {
                 where: { cart_id: cartId },
             });
             if (!cart) {
-                throw new Error("Cart not found");
+                throw new common_1.BadRequestException("Cart not found");
             }
             const user = await this.userService.findOneById(updateCartDto.user_id);
             if (!user) {
-                throw new Error("User not found");
+                throw new common_1.BadRequestException("User not found");
             }
             const existing = await this.cartItemRepository.findOne({
                 where: {
@@ -240,7 +240,7 @@ let CartService = class CartService {
                 where: { cart_item_id: cartItemId },
             });
             if (!cartItem) {
-                throw new Error("CartItem not found");
+                throw new common_1.BadRequestException("CartItem not found");
             }
             await this.cartItemRepository.delete({
                 cart_item_id: cartItemId,
@@ -257,7 +257,7 @@ let CartService = class CartService {
                 where: { cart_id: cartId },
             });
             if (!cart) {
-                throw new Error("Cart not found");
+                throw new common_1.BadRequestException("Cart not found");
             }
             await this.cartRepository.delete({
                 cart_id: cartId,

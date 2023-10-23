@@ -1,16 +1,15 @@
+import { User } from "src/user/entities/user.entity";
+import { OrderItem } from "./order-item.entity";
 export declare class Order {
     order_id: string;
-    product_id: string;
-    quantity: string;
-    user_id: string;
-    shop_id: string;
-    order_status: string;
+    total_quantity: string;
     order_date: string;
     order_total: string;
     order_address: string;
     order_phone: string;
-    order_email: string;
-    order_name: string;
+    payment_method: string;
+    user: User;
+    order_items: OrderItem[];
     createdAt: Date;
     updatedAt: Date;
     constructor();

@@ -1,31 +1,24 @@
-import { Exclude } from 'class-transformer';
+import { Exclude } from "class-transformer";
+import { User } from "src/user/entities/user.entity";
 import {
   PrimaryGeneratedColumn,
   Column,
   Entity,
   CreateDateColumn,
   UpdateDateColumn,
-} from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
+  ManyToOne,
+  OneToMany,
+} from "typeorm";
+import { v4 as uuidv4 } from "uuid";
+import { OrderItem } from "./order-item.entity";
 
+@Entity("order")
 export class Order {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   order_id: string;
 
   @Column()
-  product_id: string;
-
-  @Column()
-  quantity: string;
-
-  @Column()
-  user_id: string;
-
-  @Column()
-  shop_id: string;
-
-  @Column()
-  order_status: string;
+  total_quantity: string;
 
   @Column()
   order_date: string;
@@ -40,10 +33,13 @@ export class Order {
   order_phone: string;
 
   @Column()
-  order_email: string;
+  payment_method: string;
 
-  @Column()
-  order_name: string;
+  @ManyToOne(() => User, (user) => user.orders)
+  user: User;
+
+  @OneToMany(() => OrderItem, (order_item) => order_item.order)
+  order_items: OrderItem[];
 
   @CreateDateColumn()
   @Exclude()

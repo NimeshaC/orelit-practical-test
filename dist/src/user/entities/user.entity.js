@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const class_transformer_1 = require("class-transformer");
 const cart_entity_1 = require("../../cart/entities/cart.entity");
+const order_entity_1 = require("../../order/entities/order.entity");
 const product_entity_1 = require("../../product/entities/product.entity");
 const promotion_entity_1 = require("../../promotion/entities/promotion.entity");
 const shop_entity_1 = require("../../shop/entities/shop.entity");
@@ -73,6 +74,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => product_entity_1.Product, (product) => product.user),
     __metadata("design:type", Array)
 ], User.prototype, "products", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => order_entity_1.Order, (order) => order.user),
+    __metadata("design:type", Array)
+], User.prototype, "orders", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => cart_entity_1.Cart, (cart) => cart.user),
     __metadata("design:type", cart_entity_1.Cart)

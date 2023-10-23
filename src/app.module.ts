@@ -11,7 +11,6 @@ import { OrderModule } from "./order/order.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { dataSourceOptions } from "db/data-sorce";
 import { ShopModule } from "./shop/shop.module";
-import { OrderItemModule } from "./order-item/order-item.module";
 import { UserModule } from "./user/user.module";
 import { AuthModule } from "./auth/auth.module";
 
@@ -32,7 +31,6 @@ import { AuthModule } from "./auth/auth.module";
     CartModule,
     OrderModule,
     ShopModule,
-    OrderItemModule,
     UserModule,
     AuthModule,
   ],

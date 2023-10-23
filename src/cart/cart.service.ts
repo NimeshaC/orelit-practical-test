@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { CreateCartDto } from "./dto/create-cart.dto";
 import { UpdateCartDto } from "./dto/update-cart.dto";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -36,7 +36,7 @@ export class CartService {
       );
 
       if (!product) {
-        throw new Error("Product not found");
+        throw new BadRequestException("Product not found");
       }
 
       const getPromotions = await this.promotionService.findAllByProductId(
@@ -96,7 +96,7 @@ export class CartService {
         where: { cart_item_id: cartItemId },
       });
       if (!cartItem) {
-        throw new Error("CartItem not found");
+        throw new BadRequestException("CartItem not found");
       }
 
       const product = await this.productService.findOneById(
@@ -170,7 +170,7 @@ export class CartService {
     try {
       const user = await this.userService.findOneById(createCartDto.user_id);
       if (!user) {
-        throw new Error("User not found");
+        throw new BadRequestException("User not found");
       }
 
       const cart = await this.cartRepository.save({
@@ -225,7 +225,7 @@ export class CartService {
         where: { cart_id: cartId },
       });
       if (!cart) {
-        throw new Error("Cart not found");
+        throw new BadRequestException("Cart not found");
       }
 
       const cartItems = await this.cartItemRepository.find({
@@ -251,12 +251,12 @@ export class CartService {
         where: { cart_id: cartId },
       });
       if (!cart) {
-        throw new Error("Cart not found");
+        throw new BadRequestException("Cart not found");
       }
 
       const user = await this.userService.findOneById(updateCartDto.user_id);
       if (!user) {
-        throw new Error("User not found");
+        throw new BadRequestException("User not found");
       }
 
       const existing = await this.cartItemRepository.findOne({
@@ -323,7 +323,7 @@ export class CartService {
         where: { cart_item_id: cartItemId },
       });
       if (!cartItem) {
-        throw new Error("CartItem not found");
+        throw new BadRequestException("CartItem not found");
       }
       await this.cartItemRepository.delete({
         cart_item_id: cartItemId,
@@ -341,7 +341,7 @@ export class CartService {
         where: { cart_id: cartId },
       });
       if (!cart) {
-        throw new Error("Cart not found");
+        throw new BadRequestException("Cart not found");
       }
       await this.cartRepository.delete({
         cart_id: cartId,

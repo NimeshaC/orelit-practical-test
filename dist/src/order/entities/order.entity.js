@@ -11,38 +11,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Order = void 0;
 const class_transformer_1 = require("class-transformer");
+const user_entity_1 = require("../../user/entities/user.entity");
 const typeorm_1 = require("typeorm");
 const uuid_1 = require("uuid");
-class Order {
+const order_item_entity_1 = require("./order-item.entity");
+let Order = class Order {
     constructor() {
         this.order_id = (0, uuid_1.v4)();
     }
-}
+};
 exports.Order = Order;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
     __metadata("design:type", String)
 ], Order.prototype, "order_id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Order.prototype, "product_id", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Order.prototype, "quantity", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Order.prototype, "user_id", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Order.prototype, "shop_id", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Order.prototype, "order_status", void 0);
+], Order.prototype, "total_quantity", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
@@ -62,11 +48,15 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Order.prototype, "order_email", void 0);
+], Order.prototype, "payment_method", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Order.prototype, "order_name", void 0);
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.orders),
+    __metadata("design:type", user_entity_1.User)
+], Order.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => order_item_entity_1.OrderItem, (order_item) => order_item.order),
+    __metadata("design:type", Array)
+], Order.prototype, "order_items", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     (0, class_transformer_1.Exclude)(),
@@ -77,4 +67,8 @@ __decorate([
     (0, class_transformer_1.Exclude)(),
     __metadata("design:type", Date)
 ], Order.prototype, "updatedAt", void 0);
+exports.Order = Order = __decorate([
+    (0, typeorm_1.Entity)("order"),
+    __metadata("design:paramtypes", [])
+], Order);
 //# sourceMappingURL=order.entity.js.map

@@ -15,6 +15,7 @@ import { Shop } from "src/shop/entities/shop.entity";
 import { User } from "src/user/entities/user.entity";
 import { CartItem } from "src/cart/entities/cart-item.entity";
 import { Promotion } from "src/promotion/entities/promotion.entity";
+import { OrderItem } from "src/order/entities/order-item.entity";
 
 @Entity("product")
 export class Product {
@@ -50,6 +51,9 @@ export class Product {
 
   @OneToMany(() => CartItem, (cart_item) => cart_item.product)
   cart_items: CartItem[];
+
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
+  order_item: OrderItem[];
 
   @CreateDateColumn()
   @Exclude()

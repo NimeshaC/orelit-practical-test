@@ -1,6 +1,6 @@
 import { AuthService } from "./auth.service";
-import { CreateUserDto } from "../../src/user/dto/create-user.dto";
 import { User } from "../../src/user/entities/user.entity";
+import { CreateUserDto } from "src/user/dto/create-user.dto";
 export interface AuthenticatedRequest extends Request {
     user: User;
 }

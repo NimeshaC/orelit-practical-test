@@ -10,8 +10,8 @@ export declare class UserService {
     findOneByEmail(email: string): Promise<User | null>;
     hashPassword(password: string): Promise<string>;
     create(createUserDto: CreateUserDto): Promise<ResponseData<User>>;
-    findAll(): Promise<ResponseData<User[]>>;
-    findOneById(user_id: string): Promise<ResponseData<User>>;
+    findAll(): Promise<ResponseData<User[] | any>>;
+    findOneById(user_id: string): Promise<ResponseData<User | any>>;
     update(user_id: string, updateUserDto: UpdateUserDto): Promise<ResponseData<User | null>>;
     remove(user_id: string): Promise<ResponseData<User | null>>;
 }

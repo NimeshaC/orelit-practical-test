@@ -77,12 +77,16 @@ export class UserService {
   }
 
   // find all users
-  async findAll(): Promise<ResponseData<User[]>> {
+  async findAll(): Promise<ResponseData<User[] | any>> {
     const user = await this.userRepository.find();
-    return generateResponse(true, 200, "All Users", user);
+    const userData = user.map((item) => {
+      const { password, ...rest } = item;
+      return rest;
+    });
+    return generateResponse(true, 200, "All Users", userData);
   }
 
-  async findOneById(user_id: string): Promise<ResponseData<User>> {
+  async findOneById(user_id: string): Promise<ResponseData<User | any>> {
     try {
       const user = await this.userRepository.findOne({
         where: { user_id },
@@ -90,7 +94,10 @@ export class UserService {
       if (!user) {
         throw new BadRequestException("User not found");
       }
-      return generateResponse(true, 200, "User", user);
+
+      const { password, ...userData } = user;
+
+      return generateResponse(true, 200, "User", userData);
     } catch (error) {
       throw error;
     }

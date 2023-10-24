@@ -40,7 +40,7 @@ export class ShopService {
   // find all shops
   async findAll(): Promise<ResponseData<Shop[]>> {
     const shop = await this.shopRepository.find();
-    return generateResponse(true, 200, "All Shops", shop);
+    return generateResponse(true, 200, "Shops are retrived successfully", shop);
   }
 
   // find all shops by user id (shopAdmin id)
@@ -53,7 +53,12 @@ export class ShopService {
       const shop = await this.shopRepository.find({
         where: { user: { user_id: userId } },
       });
-      return generateResponse(true, 200, "All Shops", shop);
+      return generateResponse(
+        true,
+        200,
+        "Shops are retrived successfully ",
+        shop
+      );
     } catch (error) {
       throw error;
     }
@@ -68,7 +73,7 @@ export class ShopService {
       if (!shop) {
         throw new BadRequestException("Shop not found");
       }
-      return generateResponse(true, 200, "Shop", shop);
+      return generateResponse(true, 200, "Shop retrived successfully ", shop);
     } catch (error) {
       throw error;
     }
@@ -111,7 +116,7 @@ export class ShopService {
         throw new BadRequestException("Shop not found");
       }
       await this.shopRepository.delete({ shop_id });
-      return generateResponse(true, 200, "Shop deleted successfully", null);
+      return generateResponse(true, 200, "Shop deleted successfully");
     } catch (error) {
       throw error;
     }

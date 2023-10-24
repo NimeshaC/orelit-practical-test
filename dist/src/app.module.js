@@ -10,30 +10,22 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
-const config_1 = require("@nestjs/config");
-const configuration_1 = require("../config/configuration");
-const validationSchema_1 = require("../config/validationSchema");
 const product_module_1 = require("./product/product.module");
 const promotion_module_1 = require("./promotion/promotion.module");
 const cart_module_1 = require("./cart/cart.module");
 const order_module_1 = require("./order/order.module");
 const typeorm_1 = require("@nestjs/typeorm");
-const data_sorce_1 = require("../db/data-sorce");
 const shop_module_1 = require("./shop/shop.module");
 const user_module_1 = require("./user/user.module");
 const auth_module_1 = require("./auth/auth.module");
+const data_sorce_1 = require("../db/data-sorce");
+const seed_module_1 = require("./seed/seed.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot({
-                envFilePath: `${process.cwd()}/config/env/${process.env.NODE_ENV}.env`,
-                load: [configuration_1.configuration],
-                isGlobal: true,
-                validationSchema: validationSchema_1.validationSchema,
-            }),
             typeorm_1.TypeOrmModule.forRoot({
                 ...data_sorce_1.dataSourceOptions,
                 autoLoadEntities: true,
@@ -45,6 +37,7 @@ exports.AppModule = AppModule = __decorate([
             shop_module_1.ShopModule,
             user_module_1.UserModule,
             auth_module_1.AuthModule,
+            seed_module_1.SeedModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService, common_1.Logger],

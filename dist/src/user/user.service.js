@@ -73,7 +73,11 @@ let UserService = class UserService {
     }
     async findAll() {
         const user = await this.userRepository.find();
-        return (0, response_utill_1.generateResponse)(true, 200, "All Users", user);
+        const userData = user.map((item) => {
+            const { password, ...rest } = item;
+            return rest;
+        });
+        return (0, response_utill_1.generateResponse)(true, 200, "All Users", userData);
     }
     async findOneById(user_id) {
         try {
@@ -83,7 +87,8 @@ let UserService = class UserService {
             if (!user) {
                 throw new common_1.BadRequestException("User not found");
             }
-            return (0, response_utill_1.generateResponse)(true, 200, "User", user);
+            const { password, ...userData } = user;
+            return (0, response_utill_1.generateResponse)(true, 200, "User", userData);
         }
         catch (error) {
             throw error;

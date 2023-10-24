@@ -9,9 +9,9 @@ import {
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { LocalAuthGuard } from "./guards/local.guard";
-import { CreateUserDto } from "../../src/user/dto/create-user.dto";
 import { User } from "../../src/user/entities/user.entity";
 import { UpdateUserDto } from "../../src/user/dto/update-user.dto";
+import { CreateUserDto } from "src/user/dto/create-user.dto";
 
 export interface AuthenticatedRequest extends Request {
   user: User;

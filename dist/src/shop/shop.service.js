@@ -45,7 +45,7 @@ let ShopService = class ShopService {
     }
     async findAll() {
         const shop = await this.shopRepository.find();
-        return (0, response_utill_1.generateResponse)(true, 200, "All Shops", shop);
+        return (0, response_utill_1.generateResponse)(true, 200, "Shops are retrived successfully", shop);
     }
     async findAllByUserId(userId) {
         try {
@@ -56,7 +56,7 @@ let ShopService = class ShopService {
             const shop = await this.shopRepository.find({
                 where: { user: { user_id: userId } },
             });
-            return (0, response_utill_1.generateResponse)(true, 200, "All Shops", shop);
+            return (0, response_utill_1.generateResponse)(true, 200, "Shops are retrived successfully ", shop);
         }
         catch (error) {
             throw error;
@@ -70,7 +70,7 @@ let ShopService = class ShopService {
             if (!shop) {
                 throw new common_1.BadRequestException("Shop not found");
             }
-            return (0, response_utill_1.generateResponse)(true, 200, "Shop", shop);
+            return (0, response_utill_1.generateResponse)(true, 200, "Shop retrived successfully ", shop);
         }
         catch (error) {
             throw error;
@@ -103,7 +103,7 @@ let ShopService = class ShopService {
                 throw new common_1.BadRequestException("Shop not found");
             }
             await this.shopRepository.delete({ shop_id });
-            return (0, response_utill_1.generateResponse)(true, 200, "Shop deleted successfully", null);
+            return (0, response_utill_1.generateResponse)(true, 200, "Shop deleted successfully");
         }
         catch (error) {
             throw error;

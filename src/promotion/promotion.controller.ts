@@ -39,14 +39,12 @@ export class PromotionController {
 
   // find a promotion controller
   @Get(":id")
-  @Roles([Role.SYSTEM_ADMIN, Role.SHOP_ADMIN])
   findOne(@Param("id") id: string) {
     return this.promotionService.findOne(id);
   }
 
   // find all promotions related to a product controller
   @Get("product/:productId")
-  @Roles([Role.SYSTEM_ADMIN, Role.SHOP_ADMIN])
   findAllByProductId(@Param("productId") productId: string) {
     return this.promotionService.findAllByProductId(productId);
   }

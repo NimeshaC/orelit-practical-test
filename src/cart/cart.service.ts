@@ -69,8 +69,6 @@ export class CartService {
         }
       };
 
-      console.log(totalPrice(), "totalPrice()");
-
       await this.cartItemRepository.save({
         ...createCartItemDto,
         total_price: totalPrice().toString(),
@@ -275,8 +273,6 @@ export class CartService {
       }
 
       const cartData = await this.findCartById(cart.cart_id);
-
-      console.log(cartData.data.cartItems, "cartData.data.cartItems");
 
       const totalPrice = cartData.data.cartItems
         .map((item: any) => {

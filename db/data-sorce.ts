@@ -20,8 +20,6 @@ export const dataSourceOptions: DataSourceOptions = {
   logging: false,
 };
 
-console.log(process.env.DB_PORT);
-
 const dataSource = new DataSource(dataSourceOptions);
 
 export default dataSource;

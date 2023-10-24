@@ -15,6 +15,7 @@ export class ShopService {
     private userService: UserService
   ) {}
 
+  // create shop
   async create(createShopDto: CreateShopDto): Promise<ResponseData<Shop>> {
     try {
       const user = await this.userService.findOneById(createShopDto.user_id);
@@ -36,11 +37,13 @@ export class ShopService {
     }
   }
 
+  // find all shops
   async findAll(): Promise<ResponseData<Shop[]>> {
     const shop = await this.shopRepository.find();
     return generateResponse(true, 200, "All Shops", shop);
   }
 
+  // find all shops by user id (shopAdmin id)
   async findAllByUserId(userId: string): Promise<ResponseData<Shop[]>> {
     try {
       const user = await this.userService.findOneById(userId);
@@ -56,6 +59,7 @@ export class ShopService {
     }
   }
 
+  // find one shop
   async findOne(shop_id: string): Promise<ResponseData<Shop>> {
     try {
       const shop = await this.shopRepository.findOne({
@@ -70,6 +74,7 @@ export class ShopService {
     }
   }
 
+  // update shop
   async update(
     shop_id: string,
     updateShopDto: UpdateShopDto
@@ -96,6 +101,7 @@ export class ShopService {
     }
   }
 
+  // remove shop
   async remove(shop_id: string): Promise<ResponseData<Shop | null>> {
     try {
       const shop = await this.shopRepository.findOne({

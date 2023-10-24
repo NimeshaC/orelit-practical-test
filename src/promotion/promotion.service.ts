@@ -18,6 +18,7 @@ export class PromotionService {
     readonly userService: UserService
   ) {}
 
+  // create promotion
   async create(
     createPromotionDto: CreatePromotionDto
   ): Promise<ResponseData<Promotion>> {
@@ -34,6 +35,32 @@ export class PromotionService {
       if (!product) {
         throw new BadRequestException("Product not found");
       }
+
+      const existingPromotions = await this.findAll();
+
+      const getExistingPromotions = existingPromotions.data.filter(
+        (promotion) => {
+          const startDate = new Date(promotion.promotion_start_date);
+          const endDate = new Date(promotion.promotion_end_date);
+          const promotionStartDate = new Date(
+            createPromotionDto.promotion_start
+          );
+          const promotionEndDate = new Date(createPromotionDto.promotion_end);
+
+          return (
+            (promotionStartDate >= startDate &&
+              promotionStartDate <= endDate) ||
+            (promotionEndDate >= startDate && promotionEndDate <= endDate)
+          );
+        }
+      );
+
+      if (getExistingPromotions.length > 0) {
+        throw new BadRequestException(
+          "Promotion already exists for this dates range"
+        );
+      }
+
       const promotion = await this.promotionRepository.save({
         ...createPromotionDto,
         product: product.data,
@@ -53,6 +80,7 @@ export class PromotionService {
     }
   }
 
+  // find all promotions
   async findAll(): Promise<ResponseData<Promotion[]>> {
     const promotion = await this.promotionRepository.find();
     return generateResponse(true, 200, "All Promotions", promotion);
@@ -72,6 +100,7 @@ export class PromotionService {
     }
   }
 
+  // find all promotions by product id
   async findAllByProductId(
     productId: string
   ): Promise<ResponseData<Promotion[]>> {
@@ -89,6 +118,7 @@ export class PromotionService {
     }
   }
 
+  // update promotion
   async update(
     promotion_id: string,
     updatePromotionDto: UpdatePromotionDto
@@ -115,6 +145,7 @@ export class PromotionService {
     }
   }
 
+  // remove promotion
   async remove(promotion_id: string): Promise<ResponseData<null>> {
     try {
       const promotion = await this.promotionRepository.findOne({

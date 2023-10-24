@@ -36,6 +36,19 @@ let PromotionService = class PromotionService {
             if (!product) {
                 throw new common_1.BadRequestException("Product not found");
             }
+            const existingPromotions = await this.findAll();
+            const getExistingPromotions = existingPromotions.data.filter((promotion) => {
+                const startDate = new Date(promotion.promotion_start_date);
+                const endDate = new Date(promotion.promotion_end_date);
+                const promotionStartDate = new Date(createPromotionDto.promotion_start);
+                const promotionEndDate = new Date(createPromotionDto.promotion_end);
+                return ((promotionStartDate >= startDate &&
+                    promotionStartDate <= endDate) ||
+                    (promotionEndDate >= startDate && promotionEndDate <= endDate));
+            });
+            if (getExistingPromotions.length > 0) {
+                throw new common_1.BadRequestException("Promotion already exists for this dates range");
+            }
             const promotion = await this.promotionRepository.save({
                 ...createPromotionDto,
                 product: product.data,

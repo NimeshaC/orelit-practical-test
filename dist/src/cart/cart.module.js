@@ -13,9 +13,10 @@ const cart_controller_1 = require("./cart.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const cart_entity_1 = require("./entities/cart.entity");
 const user_module_1 = require("../user/user.module");
-const cart_item_entity_1 = require("./entities/cart-item.entity");
 const product_module_1 = require("../product/product.module");
 const promotion_module_1 = require("../promotion/promotion.module");
+const cart_item_entity_1 = require("./entities/cart-item.entity");
+const jwt_1 = require("@nestjs/jwt");
 let CartModule = class CartModule {
 };
 exports.CartModule = CartModule;
@@ -28,7 +29,7 @@ exports.CartModule = CartModule = __decorate([
             promotion_module_1.PromotionModule,
         ],
         controllers: [cart_controller_1.CartController],
-        providers: [cart_service_1.CartService],
+        providers: [cart_service_1.CartService, jwt_1.JwtService],
         exports: [cart_service_1.CartService],
     })
 ], CartModule);

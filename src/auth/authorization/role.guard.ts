@@ -3,22 +3,18 @@ import {
   CanActivate,
   ExecutionContext,
   Global,
-} from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
-import { Role } from './roles.enum';
-import { ROLES_KEY } from './roles.decorator';
+} from "@nestjs/common";
+import { Reflector } from "@nestjs/core";
+import { Roles } from "./roles.decorator";
+import { JwtService } from "@nestjs/jwt";
 
-@Global()
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(private reflector: Reflector, private jwtService: JwtService) {}
 
   canActivate(context: ExecutionContext): boolean {
     //Get the roles from the passed as metadata
-    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
+    const requiredRoles = this.reflector.get(Roles, context.getHandler());
 
     //If no roles are required, return true
     if (!requiredRoles) {
@@ -26,9 +22,15 @@ export class RolesGuard implements CanActivate {
     }
 
     //Get the user from the request
-    const { user } = context.switchToHttp().getRequest();
+    const { headers } = context.switchToHttp().getRequest();
+    const authorizationHeader = headers.authorization;
+    console.log(authorizationHeader);
+    const { roleName }: any = this.jwtService.decode(
+      authorizationHeader.split(" ")[1]
+    );
+    console.log(requiredRoles.includes(roleName));
 
     //If the user has the required role, return true
-    return requiredRoles.some((role) => user.role?.includes(role));
+    return requiredRoles.some((role) => requiredRoles.includes(roleName));
   }
 }

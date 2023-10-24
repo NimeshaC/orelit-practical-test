@@ -17,6 +17,7 @@ export class ProductService {
     readonly userService: UserService
   ) {}
 
+  // create product
   async create(
     createProductDto: CreateProductDto
   ): Promise<ResponseData<Product>> {
@@ -44,11 +45,13 @@ export class ProductService {
     }
   }
 
+  // find all products
   async findAll(): Promise<ResponseData<Product[]>> {
     const product = await this.productRepository.find();
     return generateResponse(true, 200, "All Products", product);
   }
 
+  // find all products related to a shop
   async findAllByShopId(shopId: string): Promise<ResponseData<Product[]>> {
     try {
       const shop = await this.shopService.findOne(shopId);
@@ -64,6 +67,7 @@ export class ProductService {
     }
   }
 
+  // find one product
   async findOneById(product_id: string): Promise<ResponseData<Product>> {
     try {
       const product = await this.productRepository.findOne({
@@ -78,6 +82,7 @@ export class ProductService {
     }
   }
 
+  // update product
   async update(
     product_id: string,
     updateProductDto: UpdateProductDto
@@ -104,6 +109,7 @@ export class ProductService {
     }
   }
 
+  // remove product
   async remove(product_id: string): Promise<ResponseData<Product | null>> {
     try {
       const product = await this.productRepository.findOne({

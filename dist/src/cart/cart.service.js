@@ -46,7 +46,6 @@ let CartService = class CartService {
                 const currentDate = new Date();
                 return startDate <= currentDate && endDate >= currentDate;
             });
-            console.log(activePromotion, "activePromotion........");
             const discountedProductPrice = activePromotion.map((promotion) => {
                 return (Number(product.data.price) -
                     (Number(product.data.price) * Number(promotion.discount_percentage)) /
@@ -60,9 +59,7 @@ let CartService = class CartService {
                     return (Number(product.data.price) * Number(createCartItemDto.quantity));
                 }
             };
-            console.log(totalPrice(), "total........");
-            console.log(discountedProductPrice, "discountedProductPrice........");
-            const cartItem = await this.cartItemRepository.save({
+            await this.cartItemRepository.save({
                 ...createCartItemDto,
                 total_price: totalPrice().toString(),
                 cart: cart,
@@ -84,7 +81,7 @@ let CartService = class CartService {
             }
             const product = await this.productService.findOneById(updateCartItemDto.product_id);
             if (!product) {
-                throw new Error("Product not found");
+                throw new common_1.BadRequestException("Product not found");
             }
             const getPromotions = await this.promotionService.findAllByProductId(updateCartItemDto.product_id);
             const activePromotion = getPromotions.data.filter((promotion) => {
@@ -93,7 +90,6 @@ let CartService = class CartService {
                 const currentDate = new Date();
                 return startDate <= currentDate && endDate >= currentDate;
             });
-            console.log(activePromotion, "activePromotion........");
             const discountedProductPrice = activePromotion.map((promotion) => {
                 return (Number(product.data.price) -
                     (Number(product.data.price) * Number(promotion.discount_percentage)) /
@@ -110,13 +106,11 @@ let CartService = class CartService {
                 }
             };
             const totalQuantity = Number(updateCartItemDto.quantity) + Number(cartItem.quantity);
-            console.log(totalPrice(), "total........");
             const updatedCartItem = await this.cartItemRepository.update({ cart_item_id: cartItemId }, {
                 ...updateCartItemDto,
                 total_price: totalPrice().toString(),
                 quantity: totalQuantity.toString(),
             });
-            console.log(updatedCartItem, "updatedCartItem........");
             return (0, response_utill_1.generateResponse)(true, 200, " CartItem updated successfully");
         }
         catch (error) {
@@ -227,7 +221,6 @@ let CartService = class CartService {
                 total_quantity: totalQuantity.toString(),
             });
             const updatedCartData = await this.findCartById(cart.cart_id);
-            console.log(cartData, "updatecartData........");
             return (0, response_utill_1.generateResponse)(true, 200, " Cart updated successfully", updatedCartData.data);
         }
         catch (error) {
@@ -245,7 +238,8 @@ let CartService = class CartService {
             await this.cartItemRepository.delete({
                 cart_item_id: cartItemId,
             });
-            return (0, response_utill_1.generateResponse)(true, 200, "CartItem deleted successfully");
+            const updatedCartData = await this.findCartById(cartItem.cart.cart_id);
+            return (0, response_utill_1.generateResponse)(true, 200, "CartItem deleted successfully", updatedCartData.data);
         }
         catch (error) {
             throw error;

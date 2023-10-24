@@ -20,12 +20,14 @@ export interface AuthenticatedRequest extends Request {
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  // login controller
   @UseGuards(LocalAuthGuard)
   @Post("login")
   login(@Req() req: AuthenticatedRequest) {
     return this.authService.login(req.user as User);
   }
 
+  // signup controller
   @Post("signup")
   async signUp(@Body() body: CreateUserDto) {
     return await this.authService.signUp(body);

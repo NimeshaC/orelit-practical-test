@@ -24,6 +24,7 @@ export class CartService {
     private promotionService: PromotionService
   ) {}
 
+  // create cart item
   async createCartItem(
     createCartItemDto: CreateCartItemDto
   ): Promise<ResponseData<CartItem | undefined>> {
@@ -50,8 +51,6 @@ export class CartService {
         return startDate <= currentDate && endDate >= currentDate;
       });
 
-      console.log(activePromotion, "activePromotion........");
-
       const discountedProductPrice = activePromotion.map((promotion) => {
         return (
           Number(product.data.price) -
@@ -70,11 +69,7 @@ export class CartService {
         }
       };
 
-      console.log(totalPrice(), "total........");
-
-      console.log(discountedProductPrice, "discountedProductPrice........");
-
-      const cartItem = await this.cartItemRepository.save({
+      await this.cartItemRepository.save({
         ...createCartItemDto,
         total_price: totalPrice().toString(),
         cart: cart,
@@ -87,6 +82,7 @@ export class CartService {
     }
   }
 
+  // find  cart item
   async updateCartItem(
     cartItemId: string,
     updateCartItemDto: UpdateCartItemDto
@@ -104,7 +100,7 @@ export class CartService {
       );
 
       if (!product) {
-        throw new Error("Product not found");
+        throw new BadRequestException("Product not found");
       }
 
       const getPromotions = await this.promotionService.findAllByProductId(
@@ -117,8 +113,6 @@ export class CartService {
         const currentDate = new Date();
         return startDate <= currentDate && endDate >= currentDate;
       });
-
-      console.log(activePromotion, "activePromotion........");
 
       const discountedProductPrice = activePromotion.map((promotion) => {
         return (
@@ -145,8 +139,6 @@ export class CartService {
       const totalQuantity =
         Number(updateCartItemDto.quantity) + Number(cartItem.quantity);
 
-      console.log(totalPrice(), "total........");
-
       const updatedCartItem = await this.cartItemRepository.update(
         { cart_item_id: cartItemId },
         {
@@ -156,14 +148,13 @@ export class CartService {
         }
       );
 
-      console.log(updatedCartItem, "updatedCartItem........");
-
       return generateResponse(true, 200, " CartItem updated successfully");
     } catch (error) {
       throw error;
     }
   }
 
+  // create cart
   async createCart(
     createCartDto: CreateCartDto
   ): Promise<ResponseData<Cart | undefined>> {
@@ -219,6 +210,7 @@ export class CartService {
     }
   }
 
+  // find cart by id
   async findCartById(cartId: string): Promise<ResponseData<Cart | any>> {
     try {
       const cart = await this.cartRepository.findOne({
@@ -243,6 +235,7 @@ export class CartService {
     }
   }
 
+  // update cart
   async updateCart(
     cartId: string,
     updateCartDto: UpdateCartDto
@@ -303,8 +296,6 @@ export class CartService {
 
       const updatedCartData = await this.findCartById(cart.cart_id);
 
-      console.log(cartData, "updatecartData........");
-
       return generateResponse(
         true,
         200,
@@ -316,6 +307,7 @@ export class CartService {
     }
   }
 
+  // remove cart item
   async removeCartItem(
     cartItemId: string
   ): Promise<ResponseData<CartItem | undefined>> {
@@ -330,12 +322,20 @@ export class CartService {
         cart_item_id: cartItemId,
       });
 
-      return generateResponse(true, 200, "CartItem deleted successfully");
+      const updatedCartData = await this.findCartById(cartItem.cart.cart_id);
+
+      return generateResponse(
+        true,
+        200,
+        "CartItem deleted successfully",
+        updatedCartData.data
+      );
     } catch (error) {
       throw error;
     }
   }
 
+  // remove whole cart
   async removeCart(cartId: string): Promise<ResponseData<Cart | undefined>> {
     try {
       const cart = await this.cartRepository.findOne({

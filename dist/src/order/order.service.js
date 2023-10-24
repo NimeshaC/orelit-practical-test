@@ -97,6 +97,7 @@ let OrderService = class OrderService {
                 }, createOrderDto.cart_id, item.quantity, item.total_price);
             });
             console.log("order created............");
+            await this.cartService.removeCart(createOrderDto.cart_id);
             return (0, response_utill_1.generateResponse)(true, 200, "Order Created");
         }
         catch (error) {

@@ -23,6 +23,7 @@ export class OrderService {
     private userService: UserService
   ) {}
 
+  // create order item
   async createOrderItem(
     createOrderItemDto: CreateOrderItemDto,
     cart_id: string,
@@ -73,6 +74,7 @@ export class OrderService {
     }
   }
 
+  // create order
   async createOrder(
     createOrderDto: CreateOrderDto
   ): Promise<ResponseData<Order>> {
@@ -120,16 +122,14 @@ export class OrderService {
 
       console.log("order created............");
 
+      await this.cartService.removeCart(createOrderDto.cart_id);
       return generateResponse(true, 200, "Order Created");
-
-      // await this.cartService.removeCart(createOrderDto.cart_id);
-
-      // await this.cartService.deleteCart(createOrderDto.user.user_id);
     } catch (error) {
       throw error;
     }
   }
 
+  // find all orders
   async updateOrderItem(
     order_item_id: string,
     updateOrderItemDto: UpdateOrderDto
@@ -153,6 +153,7 @@ export class OrderService {
     }
   }
 
+  // delete order
   async deleteOrder(order_id: string): Promise<ResponseData<Order>> {
     try {
       const order = await this.orderRepository.findOne({
@@ -170,6 +171,7 @@ export class OrderService {
     }
   }
 
+  // find all orders
   async findAllOrderItemsByShopId(
     shop_id: string
   ): Promise<ResponseData<OrderItem[]>> {
@@ -184,6 +186,7 @@ export class OrderService {
     }
   }
 
+  // find a order
   async findOrderById(order_id: string): Promise<ResponseData<Order>> {
     try {
       const order = await this.orderRepository.findOne({
@@ -208,6 +211,7 @@ export class OrderService {
     }
   }
 
+  // find orders related to a user
   async findAllOrdersByUserId(user_id: string): Promise<ResponseData<Order[]>> {
     try {
       const orders = await this.orderRepository.find({

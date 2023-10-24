@@ -55,6 +55,7 @@ export class UserService {
     return hashedPassword;
   }
 
+  //create user
   async create(createUserDto: CreateUserDto): Promise<ResponseData<User>> {
     try {
       const { email, role } = createUserDto;
@@ -75,6 +76,7 @@ export class UserService {
     }
   }
 
+  // find all users
   async findAll(): Promise<ResponseData<User[]>> {
     const user = await this.userRepository.find();
     return generateResponse(true, 200, "All Users", user);
@@ -94,6 +96,7 @@ export class UserService {
     }
   }
 
+  // update user
   async update(
     user_id: string,
     updateUserDto: UpdateUserDto
@@ -120,6 +123,7 @@ export class UserService {
     }
   }
 
+  // remove user
   async remove(user_id: string): Promise<ResponseData<User | null>> {
     try {
       const user = await this.userRepository.findOne({

@@ -11,7 +11,7 @@ export class CreateOrderDto {
 
   @IsString()
   @IsNotEmpty()
-  payment_method: string;
+  payment_method: number;
 
   @IsString()
   @IsNotEmpty()

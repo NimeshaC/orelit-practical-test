@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -14,11 +18,26 @@ export class UserService {
     private userRepository: Repository<User>
   ) {}
 
+  //verify password
+  async verifyPassword(password: string, password1: string) {
+    try {
+      const passwordMatches = await bcrypt.compare(password, password1);
+
+      if (passwordMatches) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      throw new ForbiddenException("Not valid Password", error.message);
+    }
+  }
+
   //find user by email
   async findOneByEmail(email: string): Promise<User | null> {
     const user = await this.userRepository.findOne({
       where: { email },
     });
+
     return user || null;
   }
 

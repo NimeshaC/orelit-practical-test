@@ -1,14 +1,10 @@
-import {
-  Injectable,
-  BadRequestException,
-  UnauthorizedException,
-  NotAcceptableException,
-} from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { CreateUserDto } from "../user/dto/create-user.dto";
 import { User } from "../user/entities/user.entity";
 import { UserService } from "../user/user.service";
 import { UpdateUserDto } from "../../src/user/dto/update-user.dto";
+import { ResponseData, generateResponse } from "src/utility/response.utill";
 
 @Injectable()
 export class AuthService {
@@ -24,20 +20,32 @@ export class AuthService {
     if (!user) {
       return null;
     }
-    const passwordIsValid = user.password === pass;
+
+    const passwordIsValid = await this.userService.verifyPassword(
+      pass,
+      user.password
+    );
 
     return passwordIsValid ? user : null;
   }
 
-  async login(user: User) {
+  // login user
+  async login(user: User): Promise<ResponseData<any>> {
     const payload = {
       email: user.email,
       roleName: user.role,
     };
 
-    return {
+    const userInfo = await this.userService.findOneByEmail(user.email);
+
+    const { password, ...rest } = userInfo;
+
+    const userData = {
+      ...rest,
       access_token: this.jwtService.sign(payload),
     };
+
+    return generateResponse(true, 200, "Login Successful", userData);
   }
 
   // create new user

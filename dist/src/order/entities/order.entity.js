@@ -47,7 +47,7 @@ __decorate([
 ], Order.prototype, "order_phone", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], Order.prototype, "payment_method", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.orders),

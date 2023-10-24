@@ -7,7 +7,7 @@ export declare class Order {
     order_total: string;
     order_address: string;
     order_phone: string;
-    payment_method: string;
+    payment_method: number;
     user: User;
     order_items: OrderItem[];
     createdAt: Date;

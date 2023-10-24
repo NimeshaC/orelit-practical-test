@@ -13,6 +13,7 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const user_service_1 = require("../user/user.service");
+const response_utill_1 = require("../utility/response.utill");
 let AuthService = class AuthService {
     constructor(userService, jwtService) {
         this.userService = userService;
@@ -23,7 +24,7 @@ let AuthService = class AuthService {
         if (!user) {
             return null;
         }
-        const passwordIsValid = user.password === pass;
+        const passwordIsValid = await this.userService.verifyPassword(pass, user.password);
         return passwordIsValid ? user : null;
     }
     async login(user) {
@@ -31,9 +32,13 @@ let AuthService = class AuthService {
             email: user.email,
             roleName: user.role,
         };
-        return {
+        const userInfo = await this.userService.findOneByEmail(user.email);
+        const { password, ...rest } = userInfo;
+        const userData = {
+            ...rest,
             access_token: this.jwtService.sign(payload),
         };
+        return (0, response_utill_1.generateResponse)(true, 200, "Login Successful", userData);
     }
     async signUp(userInfo) {
         return await this.userService.create(userInfo);

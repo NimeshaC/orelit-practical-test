@@ -16,27 +16,32 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(createOrderDto);
+  createOrder(@Body() createOrderDto: CreateOrderDto) {
+    return this.orderService.createOrder(createOrderDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.orderService.findAll();
-  // }
+  @Get("shop/:shop_id")
+  findAllOrderItemsByShopId(@Param("shop_id") shop_id: string) {
+    return this.orderService.findAllOrderItemsByShopId(shop_id);
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.orderService.findOne(id);
-  // }
+  @Get(":id")
+  findOne(@Param("id") id: string) {
+    return this.orderService.findOrderById(id);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-  //   return this.orderService.update(id, updateOrderDto);
-  // }
+  @Get("user/:user_id")
+  findAllOrdersByUserId(@Param("user_id") user_id: string) {
+    return this.orderService.findAllOrdersByUserId(user_id);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.orderService.remove(id);
-  // }
+  @Patch("item/:id")
+  update(@Param("id") id: string, @Body() updateOrderDto: UpdateOrderDto) {
+    return this.orderService.updateOrderItem(id, updateOrderDto);
+  }
+
+  @Delete(":id")
+  remove(@Param("id") id: string) {
+    return this.orderService.deleteOrder(id);
+  }
 }

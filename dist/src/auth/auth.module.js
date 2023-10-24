@@ -24,11 +24,11 @@ exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
             dist_1.JwtModule.register({
-                secret: 'LAYOIUTINDEXLAYERJWTSECRET/s',
-                signOptions: { expiresIn: '1d' },
+                secret: "ORELITPRACTICALTESTJWTSECRET/s",
+                signOptions: { expiresIn: "1d" },
             }),
             user_module_1.UserModule,
-            passport_1.PassportModule.register({ defaultStrategy: 'jwt' }),
+            passport_1.PassportModule.register({ defaultStrategy: "jwt" }),
             typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]),
         ],
         controllers: [auth_controller_1.AuthController],

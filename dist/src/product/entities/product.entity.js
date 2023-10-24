@@ -15,9 +15,9 @@ const class_transformer_1 = require("class-transformer");
 const uuid_1 = require("uuid");
 const shop_entity_1 = require("../../shop/entities/shop.entity");
 const user_entity_1 = require("../../user/entities/user.entity");
-const cart_item_entity_1 = require("../../cart/entities/cart-item.entity");
 const promotion_entity_1 = require("../../promotion/entities/promotion.entity");
 const order_item_entity_1 = require("../../order/entities/order-item.entity");
+const cart_item_entity_1 = require("../../cart/entities/cart-item.entity");
 let Product = class Product {
     constructor() {
         this.product_id = (0, uuid_1.v4)();

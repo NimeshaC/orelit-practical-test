@@ -6,6 +6,7 @@ import { ResponseData } from "src/utility/response.utill";
 export declare class UserService {
     private userRepository;
     constructor(userRepository: Repository<User>);
+    verifyPassword(password: string, password1: string): Promise<boolean>;
     findOneByEmail(email: string): Promise<User | null>;
     hashPassword(password: string): Promise<string>;
     create(createUserDto: CreateUserDto): Promise<ResponseData<User>>;

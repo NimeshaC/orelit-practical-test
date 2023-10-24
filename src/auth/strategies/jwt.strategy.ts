@@ -22,15 +22,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     email: string;
     roleName: string;
   }): Promise<User> {
-    // const user = new User()
-
-    // user.email = validationPayload.email
-    // user.roleName = validationPayload.roleName
-
-    // if (validationPayload.roleName == process.env.ROLE_NAME) {
-    //   return user
-    // }
-
     try {
       const user = await this.userService.findOneByEmail(
         validationPayload.email

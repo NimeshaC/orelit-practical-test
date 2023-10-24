@@ -23,6 +23,18 @@ let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
+    async verifyPassword(password, password1) {
+        try {
+            const passwordMatches = await bcrypt.compare(password, password1);
+            if (passwordMatches) {
+                return true;
+            }
+            return false;
+        }
+        catch (error) {
+            throw new common_1.ForbiddenException("Not valid Password", error.message);
+        }
+    }
     async findOneByEmail(email) {
         const user = await this.userRepository.findOne({
             where: { email },

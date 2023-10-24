@@ -52,7 +52,7 @@ export class OrderService {
       }
 
       const data = await this.orderItemRepository.save({
-        order_item_status: "Success",
+        order_item_status: "Pending",
         quantity: quantity,
         gross_price: gross_price,
         product: product.data,
@@ -73,7 +73,9 @@ export class OrderService {
     }
   }
 
-  async create(createOrderDto: CreateOrderDto): Promise<ResponseData<Order>> {
+  async createOrder(
+    createOrderDto: CreateOrderDto
+  ): Promise<ResponseData<Order>> {
     try {
       const cart = await this.cartService.findCartById(createOrderDto.cart_id);
       if (!cart) {
@@ -99,16 +101,6 @@ export class OrderService {
       });
 
       console.log(order, "order................");
-
-      // console.log(
-      //   cart.data.cartItems
-      //     .map((cartItem: any) => cartItem)
-      //     .forEach((item) => {
-      //       console.log(item, "item............");
-      //     }),
-      //   "cartItems............"
-      // );
-
       cart.data.cartItems
         .map((cartItem: any) => cartItem)
         .forEach(async (item: any) => {
@@ -117,8 +109,8 @@ export class OrderService {
           await this.createOrderItem(
             {
               order_id: order.order_id,
-              product_id: item.product.product_id,
-              order_item_status: "Success",
+              product_id: "20e3a375-3cc7-4f45-987b-fa6945132b8e",
+              order_item_status: "Pending",
             },
             createOrderDto.cart_id,
             item.quantity,
@@ -133,6 +125,105 @@ export class OrderService {
       // await this.cartService.removeCart(createOrderDto.cart_id);
 
       // await this.cartService.deleteCart(createOrderDto.user.user_id);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateOrderItem(
+    order_item_id: string,
+    updateOrderItemDto: UpdateOrderDto
+  ): Promise<ResponseData<OrderItem>> {
+    try {
+      const orderItem = await this.orderItemRepository.findOne({
+        where: { order_item_id: order_item_id },
+      });
+      if (!orderItem) {
+        throw new BadRequestException("Order Item not found");
+      }
+
+      const data = await this.orderItemRepository.save({
+        ...orderItem,
+        ...updateOrderItemDto,
+      });
+
+      return generateResponse(true, 200, "Order Item Updated", data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteOrder(order_id: string): Promise<ResponseData<Order>> {
+    try {
+      const order = await this.orderRepository.findOne({
+        where: { order_id: order_id },
+      });
+      if (!order) {
+        throw new BadRequestException("Order not found");
+      }
+
+      await this.orderRepository.delete(order);
+
+      return generateResponse(true, 200, "Order Deleted");
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findAllOrderItemsByShopId(
+    shop_id: string
+  ): Promise<ResponseData<OrderItem[]>> {
+    try {
+      const orderItems = await this.orderItemRepository.find({
+        where: { product: { shop: { shop_id: shop_id } } },
+      });
+
+      return generateResponse(true, 200, "Order Items Found", orderItems);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findOrderById(order_id: string): Promise<ResponseData<Order>> {
+    try {
+      const order = await this.orderRepository.findOne({
+        where: { order_id: order_id },
+      });
+      if (!order) {
+        throw new BadRequestException("Order not found");
+      }
+
+      const orderItems = await this.orderItemRepository.find({
+        where: { order: { order_id: order_id } },
+      });
+
+      const orderData = {
+        ...order,
+        orderItems,
+      };
+
+      return generateResponse(true, 200, "Order Found", orderData);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findAllOrdersByUserId(user_id: string): Promise<ResponseData<Order[]>> {
+    try {
+      const orders = await this.orderRepository.find({
+        where: { user: { user_id: user_id } },
+      });
+
+      const orderItems = await this.orderItemRepository.find({
+        where: { order: { user: { user_id: user_id } } },
+      });
+
+      const orderData = {
+        ...orders,
+        orderItems,
+      };
+
+      return generateResponse(true, 200, "Orders Found", orderData);
     } catch (error) {
       throw error;
     }

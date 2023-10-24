@@ -1,5 +1,5 @@
 export declare enum Role {
-    SYSTEM_ADMIN = "system_admin",
-    SHOP_ADMIN = "shop_admin",
+    SYSTEM_ADMIN = "systemAdmin",
+    SHOP_ADMIN = "shopAdmin",
     CUSTOMER = "customer"
 }

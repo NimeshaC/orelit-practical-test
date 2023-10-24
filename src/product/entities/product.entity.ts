@@ -13,9 +13,9 @@ import { Exclude } from "class-transformer";
 import { v4 as uuidv4 } from "uuid";
 import { Shop } from "src/shop/entities/shop.entity";
 import { User } from "src/user/entities/user.entity";
-import { CartItem } from "src/cart/entities/cart-item.entity";
 import { Promotion } from "src/promotion/entities/promotion.entity";
 import { OrderItem } from "src/order/entities/order-item.entity";
+import { CartItem } from "src/cart/entities/cart-item.entity";
 
 @Entity("product")
 export class Product {

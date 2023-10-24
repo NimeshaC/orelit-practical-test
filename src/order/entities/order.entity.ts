@@ -33,7 +33,7 @@ export class Order {
   order_phone: string;
 
   @Column()
-  payment_method: string;
+  payment_method: number;
 
   @ManyToOne(() => User, (user) => user.orders)
   user: User;

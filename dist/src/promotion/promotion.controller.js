@@ -34,7 +34,7 @@ let PromotionController = class PromotionController {
     findOne(id) {
         return this.promotionService.findOne(id);
     }
-    findAllByShopId(productId) {
+    findAllByProductId(productId) {
         return this.promotionService.findAllByProductId(productId);
     }
     update(id, updatePromotionDto) {
@@ -55,7 +55,7 @@ __decorate([
 ], PromotionController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
-    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN, roles_enum_1.Role.SHOP_ADMIN]),
+    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
@@ -75,7 +75,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], PromotionController.prototype, "findAllByShopId", null);
+], PromotionController.prototype, "findAllByProductId", null);
 __decorate([
     (0, common_1.Patch)(":id"),
     (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN, roles_enum_1.Role.SHOP_ADMIN]),

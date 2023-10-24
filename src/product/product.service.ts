@@ -48,7 +48,12 @@ export class ProductService {
   // find all products
   async findAll(): Promise<ResponseData<Product[]>> {
     const product = await this.productRepository.find();
-    return generateResponse(true, 200, "All Products", product);
+    return generateResponse(
+      true,
+      200,
+      "Products retrieved successfully",
+      product
+    );
   }
 
   // find all products related to a shop
@@ -61,7 +66,12 @@ export class ProductService {
       const product = await this.productRepository.find({
         where: { shop: { shop_id: shopId } },
       });
-      return generateResponse(true, 200, "All Products", product);
+      return generateResponse(
+        true,
+        200,
+        "Products retrieved successfully",
+        product
+      );
     } catch (error) {
       throw error;
     }
@@ -76,7 +86,12 @@ export class ProductService {
       if (!product) {
         throw new BadRequestException("Product not found");
       }
-      return generateResponse(true, 200, "Product", product);
+      return generateResponse(
+        true,
+        200,
+        "Product retrieved successfully",
+        product
+      );
     } catch (error) {
       throw error;
     }

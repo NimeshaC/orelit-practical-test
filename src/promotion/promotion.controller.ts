@@ -32,7 +32,7 @@ export class PromotionController {
 
   // find all promotions controller
   @Get()
-  @Roles([Role.SYSTEM_ADMIN, Role.SHOP_ADMIN])
+  @Roles([Role.SYSTEM_ADMIN])
   findAll() {
     return this.promotionService.findAll();
   }
@@ -47,7 +47,7 @@ export class PromotionController {
   // find all promotions related to a product controller
   @Get("product/:productId")
   @Roles([Role.SYSTEM_ADMIN, Role.SHOP_ADMIN])
-  findAllByShopId(@Param("productId") productId: string) {
+  findAllByProductId(@Param("productId") productId: string) {
     return this.promotionService.findAllByProductId(productId);
   }
 

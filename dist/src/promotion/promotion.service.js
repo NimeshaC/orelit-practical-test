@@ -54,7 +54,7 @@ let PromotionService = class PromotionService {
                 product: product.data,
                 user: user.data,
             });
-            return (0, response_utill_1.generateResponse)(true, 200, " Promotion created successfully", promotion);
+            return (0, response_utill_1.generateResponse)(true, 200, " Promotion created successfully");
         }
         catch (error) {
             if (error.code == "23505") {

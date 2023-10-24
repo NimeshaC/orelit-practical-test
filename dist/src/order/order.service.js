@@ -53,11 +53,13 @@ let OrderService = class OrderService {
                 product: product.data,
                 order: order,
             });
-            console.log(data, "data............");
             const orderItems = await this.orderItemRepository.find({
                 where: { order: order },
             });
-            console.log(orderItems, "orderItems............");
+            const UpdatedQuantity = Number(product.data.stock_quantity) - parseInt(quantity);
+            await this.productService.update(product.data.product_id, {
+                stock_quantity: UpdatedQuantity.toString(),
+            });
             return (0, response_utill_1.generateResponse)(true, 200, "Order Item Created");
         }
         catch (error) {
@@ -85,20 +87,18 @@ let OrderService = class OrderService {
                 total_quantity: cart.data.total_quantity,
                 user: user.data,
             });
-            console.log(order, "order................");
             cart.data.cartItems
                 .map((cartItem) => cartItem)
                 .forEach(async (item) => {
-                console.log(item, "Item............");
                 await this.createOrderItem({
                     order_id: order.order_id,
-                    product_id: "20e3a375-3cc7-4f45-987b-fa6945132b8e",
+                    product_id: item.product.product_id,
                     order_item_status: "Pending",
                 }, createOrderDto.cart_id, item.quantity, item.total_price);
             });
-            console.log("order created............");
+            const orderData = await this.findOrderById(order.order_id);
             await this.cartService.removeCart(createOrderDto.cart_id);
-            return (0, response_utill_1.generateResponse)(true, 200, "Order Created");
+            return (0, response_utill_1.generateResponse)(true, 200, "Order Created", orderData.data);
         }
         catch (error) {
             throw error;
@@ -142,6 +142,9 @@ let OrderService = class OrderService {
             const orderItems = await this.orderItemRepository.find({
                 where: { product: { shop: { shop_id: shop_id } } },
             });
+            if (!orderItems) {
+                throw new common_1.BadRequestException("Order Items not found");
+            }
             return (0, response_utill_1.generateResponse)(true, 200, "Order Items Found", orderItems);
         }
         catch (error) {
@@ -174,14 +177,21 @@ let OrderService = class OrderService {
             const orders = await this.orderRepository.find({
                 where: { user: { user_id: user_id } },
             });
-            const orderItems = await this.orderItemRepository.find({
-                where: { order: { user: { user_id: user_id } } },
-            });
-            const orderData = {
-                ...orders,
-                orderItems,
-            };
-            return (0, response_utill_1.generateResponse)(true, 200, "Orders Found", orderData);
+            if (!orders) {
+                throw new common_1.BadRequestException("Orders not found");
+            }
+            const orderItemsList = [];
+            for (let i = 0; i < orders.length; i++) {
+                const orderItems = await this.orderItemRepository.find({
+                    where: { order: { order_id: orders[i].order_id } },
+                });
+                const orderData = {
+                    ...orders[i],
+                    orderItems: orderItems,
+                };
+                orderItemsList.push(orderData);
+            }
+            return (0, response_utill_1.generateResponse)(true, 200, "Orders Found", orderItemsList);
         }
         catch (error) {
             throw error;

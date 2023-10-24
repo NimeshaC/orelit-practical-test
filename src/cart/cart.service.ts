@@ -69,6 +69,8 @@ export class CartService {
         }
       };
 
+      console.log(totalPrice(), "totalPrice()");
+
       await this.cartItemRepository.save({
         ...createCartItemDto,
         total_price: totalPrice().toString(),
@@ -274,6 +276,8 @@ export class CartService {
 
       const cartData = await this.findCartById(cart.cart_id);
 
+      console.log(cartData.data.cartItems, "cartData.data.cartItems");
+
       const totalPrice = cartData.data.cartItems
         .map((item: any) => {
           return Number(item.total_price);
@@ -322,7 +326,9 @@ export class CartService {
         cart_item_id: cartItemId,
       });
 
-      const updatedCartData = await this.findCartById(cartItem.cart.cart_id);
+      const updatedCartData = await this.findCartById(
+        cartItem.cart.cart_id.toString()
+      );
 
       return generateResponse(
         true,
@@ -348,14 +354,49 @@ export class CartService {
         cart_id: cartId,
       });
 
-      const cartData = await this.findCartById(cart.cart_id);
+      return generateResponse(true, 200, "Cart deleted successfully");
+    } catch (error) {
+      throw error;
+    }
+  }
 
-      return generateResponse(
-        true,
-        200,
-        "Cart deleted successfully",
-        cartData.data
-      );
+  // verify product stocks
+  async verifyProductQuantity(
+    cartId: string
+  ): Promise<ResponseData<Cart | undefined>> {
+    try {
+      const cart = await this.cartRepository.findOne({
+        where: { cart_id: cartId },
+      });
+      if (!cart) {
+        throw new BadRequestException("Cart not found");
+      }
+
+      const cartItems = await this.cartItemRepository.find({
+        where: { cart: { cart_id: cartId } },
+      });
+
+      const cartData = {
+        ...cart,
+        cartItems,
+      };
+
+      const data = cartData.cartItems.map(async (item: any) => {
+        const product = await this.productService.findOneById(
+          "029bc2e8-29a5-4f1b-8672-66a1b6767f34"
+        );
+
+        if (!product) {
+          throw new BadRequestException("Product not found");
+        }
+        if (Number(product.data.stock_quantity) < Number(item.quantity)) {
+          throw new BadRequestException(`Stocks not available`);
+        }
+      });
+
+      await Promise.all(data);
+
+      return generateResponse(true, 200, "Stock available");
     } catch (error) {
       throw error;
     }

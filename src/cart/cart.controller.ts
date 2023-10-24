@@ -35,6 +35,11 @@ export class CartController {
     return this.cartService.findCartById(id);
   }
 
+  @Get("verify/:id")
+  verifyCart(@Param("id") id: string) {
+    return this.cartService.verifyProductQuantity(id);
+  }
+
   // update cart controller
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateCartDto: UpdateCartDto) {

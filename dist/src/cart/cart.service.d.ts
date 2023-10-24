@@ -23,4 +23,5 @@ export declare class CartService {
     updateCart(cartId: string, updateCartDto: UpdateCartDto): Promise<ResponseData<Cart | undefined>>;
     removeCartItem(cartItemId: string): Promise<ResponseData<CartItem | undefined>>;
     removeCart(cartId: string): Promise<ResponseData<Cart | undefined>>;
+    verifyProductQuantity(cartId: string): Promise<ResponseData<Cart | undefined>>;
 }

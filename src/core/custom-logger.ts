@@ -1,6 +1,6 @@
 import * as winston from "winston";
 import * as DailyRotateFile from "winston-daily-rotate-file";
-/** Logging winston setup * */
+
 export class CustomLoggerService {
   dailyRotateFileTransport: any = null;
   myFormat: winston.Logform.Format = null;
@@ -38,7 +38,6 @@ export class CustomLoggerService {
     );
 
     this.createLoggerConfig = {
-      /** Warn level Also includes error * */
       level: "warn",
       format: winston.format.combine(
         winston.format.splat(),
@@ -53,7 +52,6 @@ export class CustomLoggerService {
       transports: [
         new winston.transports.Console({ level: "info" }),
         this.dailyRotateFileTransport,
-        // Other transports
       ],
     };
   }

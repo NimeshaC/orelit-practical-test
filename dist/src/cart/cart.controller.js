@@ -29,6 +29,9 @@ let CartController = class CartController {
     findOneById(id) {
         return this.cartService.findCartById(id);
     }
+    verifyCart(id) {
+        return this.cartService.verifyProductQuantity(id);
+    }
     update(id, updateCartDto) {
         return this.cartService.updateCart(id, updateCartDto);
     }
@@ -54,6 +57,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], CartController.prototype, "findOneById", null);
+__decorate([
+    (0, common_1.Get)("verify/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], CartController.prototype, "verifyCart", null);
 __decorate([
     (0, common_1.Patch)(":id"),
     __param(0, (0, common_1.Param)("id")),

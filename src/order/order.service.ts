@@ -10,6 +10,7 @@ import { CreateOrderItemDto } from "./dto/create-order-item.dto";
 import { ResponseData, generateResponse } from "src/utility/response.utill";
 import { ProductService } from "src/product/product.service";
 import { UserService } from "src/user/user.service";
+import { array } from "joi";
 
 @Injectable()
 export class OrderService {
@@ -60,13 +61,16 @@ export class OrderService {
         order: order,
       });
 
-      console.log(data, "data............");
-
       const orderItems = await this.orderItemRepository.find({
         where: { order: order },
       });
 
-      console.log(orderItems, "orderItems............");
+      const UpdatedQuantity =
+        Number(product.data.stock_quantity) - parseInt(quantity);
+
+      await this.productService.update(product.data.product_id, {
+        stock_quantity: UpdatedQuantity.toString(),
+      });
 
       return generateResponse(true, 200, "Order Item Created");
     } catch (error) {
@@ -102,16 +106,13 @@ export class OrderService {
         user: user.data,
       });
 
-      console.log(order, "order................");
       cart.data.cartItems
         .map((cartItem: any) => cartItem)
         .forEach(async (item: any) => {
-          console.log(item, "Item............");
-
           await this.createOrderItem(
             {
               order_id: order.order_id,
-              product_id: "20e3a375-3cc7-4f45-987b-fa6945132b8e",
+              product_id: item.product.product_id,
               order_item_status: "Pending",
             },
             createOrderDto.cart_id,
@@ -120,10 +121,10 @@ export class OrderService {
           );
         });
 
-      console.log("order created............");
+      const orderData = await this.findOrderById(order.order_id);
 
       await this.cartService.removeCart(createOrderDto.cart_id);
-      return generateResponse(true, 200, "Order Created");
+      return generateResponse(true, 200, "Order Created", orderData.data);
     } catch (error) {
       throw error;
     }
@@ -180,6 +181,10 @@ export class OrderService {
         where: { product: { shop: { shop_id: shop_id } } },
       });
 
+      if (!orderItems) {
+        throw new BadRequestException("Order Items not found");
+      }
+
       return generateResponse(true, 200, "Order Items Found", orderItems);
     } catch (error) {
       throw error;
@@ -218,16 +223,27 @@ export class OrderService {
         where: { user: { user_id: user_id } },
       });
 
-      const orderItems = await this.orderItemRepository.find({
-        where: { order: { user: { user_id: user_id } } },
-      });
+      if (!orders) {
+        throw new BadRequestException("Orders not found");
+      }
 
-      const orderData = {
-        ...orders,
-        orderItems,
-      };
+      // find order items related to an order and add them to the order object
+      const orderItemsList = [];
 
-      return generateResponse(true, 200, "Orders Found", orderData);
+      for (let i = 0; i < orders.length; i++) {
+        const orderItems = await this.orderItemRepository.find({
+          where: { order: { order_id: orders[i].order_id } },
+        });
+
+        const orderData = {
+          ...orders[i],
+          orderItems: orderItems,
+        };
+
+        orderItemsList.push(orderData);
+      }
+
+      return generateResponse(true, 200, "Orders Found", orderItemsList);
     } catch (error) {
       throw error;
     }

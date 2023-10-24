@@ -7,7 +7,7 @@ export declare class PromotionController {
     create(createPromotionDto: CreatePromotionDto): Promise<import("../utility/response.utill").ResponseData<import("./entities/promotion.entity").Promotion>>;
     findAll(): Promise<import("../utility/response.utill").ResponseData<import("./entities/promotion.entity").Promotion[]>>;
     findOne(id: string): Promise<import("../utility/response.utill").ResponseData<import("./entities/promotion.entity").Promotion>>;
-    findAllByShopId(productId: string): Promise<import("../utility/response.utill").ResponseData<import("./entities/promotion.entity").Promotion[]>>;
+    findAllByProductId(productId: string): Promise<import("../utility/response.utill").ResponseData<import("./entities/promotion.entity").Promotion[]>>;
     update(id: string, updatePromotionDto: UpdatePromotionDto): Promise<import("../utility/response.utill").ResponseData<import("./entities/promotion.entity").Promotion>>;
     remove(id: string): Promise<import("../utility/response.utill").ResponseData<null>>;
 }

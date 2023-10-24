@@ -59,6 +59,7 @@ let CartService = class CartService {
                     return (Number(product.data.price) * Number(createCartItemDto.quantity));
                 }
             };
+            console.log(totalPrice(), "totalPrice()");
             await this.cartItemRepository.save({
                 ...createCartItemDto,
                 total_price: totalPrice().toString(),
@@ -206,6 +207,7 @@ let CartService = class CartService {
                 });
             }
             const cartData = await this.findCartById(cart.cart_id);
+            console.log(cartData.data.cartItems, "cartData.data.cartItems");
             const totalPrice = cartData.data.cartItems
                 .map((item) => {
                 return Number(item.total_price);
@@ -238,7 +240,7 @@ let CartService = class CartService {
             await this.cartItemRepository.delete({
                 cart_item_id: cartItemId,
             });
-            const updatedCartData = await this.findCartById(cartItem.cart.cart_id);
+            const updatedCartData = await this.findCartById(cartItem.cart.cart_id.toString());
             return (0, response_utill_1.generateResponse)(true, 200, "CartItem deleted successfully", updatedCartData.data);
         }
         catch (error) {
@@ -256,8 +258,38 @@ let CartService = class CartService {
             await this.cartRepository.delete({
                 cart_id: cartId,
             });
-            const cartData = await this.findCartById(cart.cart_id);
-            return (0, response_utill_1.generateResponse)(true, 200, "Cart deleted successfully", cartData.data);
+            return (0, response_utill_1.generateResponse)(true, 200, "Cart deleted successfully");
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    async verifyProductQuantity(cartId) {
+        try {
+            const cart = await this.cartRepository.findOne({
+                where: { cart_id: cartId },
+            });
+            if (!cart) {
+                throw new common_1.BadRequestException("Cart not found");
+            }
+            const cartItems = await this.cartItemRepository.find({
+                where: { cart: { cart_id: cartId } },
+            });
+            const cartData = {
+                ...cart,
+                cartItems,
+            };
+            const data = cartData.cartItems.map(async (item) => {
+                const product = await this.productService.findOneById("029bc2e8-29a5-4f1b-8672-66a1b6767f34");
+                if (!product) {
+                    throw new common_1.BadRequestException("Product not found");
+                }
+                if (Number(product.data.stock_quantity) < Number(item.quantity)) {
+                    throw new common_1.BadRequestException(`Stocks not available`);
+                }
+            });
+            await Promise.all(data);
+            return (0, response_utill_1.generateResponse)(true, 200, "Stock available");
         }
         catch (error) {
             throw error;

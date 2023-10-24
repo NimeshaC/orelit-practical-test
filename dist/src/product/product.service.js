@@ -52,7 +52,7 @@ let ProductService = class ProductService {
     }
     async findAll() {
         const product = await this.productRepository.find();
-        return (0, response_utill_1.generateResponse)(true, 200, "All Products", product);
+        return (0, response_utill_1.generateResponse)(true, 200, "Products retrieved successfully", product);
     }
     async findAllByShopId(shopId) {
         try {
@@ -63,7 +63,7 @@ let ProductService = class ProductService {
             const product = await this.productRepository.find({
                 where: { shop: { shop_id: shopId } },
             });
-            return (0, response_utill_1.generateResponse)(true, 200, "All Products", product);
+            return (0, response_utill_1.generateResponse)(true, 200, "Products retrieved successfully", product);
         }
         catch (error) {
             throw error;
@@ -77,7 +77,7 @@ let ProductService = class ProductService {
             if (!product) {
                 throw new common_1.BadRequestException("Product not found");
             }
-            return (0, response_utill_1.generateResponse)(true, 200, "Product", product);
+            return (0, response_utill_1.generateResponse)(true, 200, "Product retrieved successfully", product);
         }
         catch (error) {
             throw error;

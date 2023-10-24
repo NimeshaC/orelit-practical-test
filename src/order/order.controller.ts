@@ -6,12 +6,19 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from "@nestjs/common";
 import { OrderService } from "./order.service";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
+import { jwtAuthGuard } from "src/auth/guards/jwt.guard";
+import { RolesGuard } from "src/auth/authorization/role.guard";
+import { Roles } from "src/auth/authorization/roles.decorator";
+import { Role } from "src/auth/authorization/roles.enum";
 
 @Controller("order")
+@UseGuards(jwtAuthGuard)
+@UseGuards(RolesGuard)
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
@@ -23,6 +30,7 @@ export class OrderController {
 
   // find all orders related to a shop controller
   @Get("shop/:shop_id")
+  @Roles([Role.SYSTEM_ADMIN, Role.SHOP_ADMIN])
   findAllOrderItemsByShopId(@Param("shop_id") shop_id: string) {
     return this.orderService.findAllOrderItemsByShopId(shop_id);
   }
@@ -41,12 +49,14 @@ export class OrderController {
 
   // update order item controller
   @Patch("item/:id")
+  @Roles([Role.SYSTEM_ADMIN, Role.SHOP_ADMIN])
   update(@Param("id") id: string, @Body() updateOrderDto: UpdateOrderDto) {
     return this.orderService.updateOrderItem(id, updateOrderDto);
   }
 
   // remove order controller
   @Delete(":id")
+  @Roles([Role.SYSTEM_ADMIN])
   remove(@Param("id") id: string) {
     return this.orderService.deleteOrder(id);
   }

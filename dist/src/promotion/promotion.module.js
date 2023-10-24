@@ -14,6 +14,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const promotion_entity_1 = require("./entities/promotion.entity");
 const user_module_1 = require("../user/user.module");
 const product_module_1 = require("../product/product.module");
+const jwt_1 = require("@nestjs/jwt");
 let PromotionModule = class PromotionModule {
 };
 exports.PromotionModule = PromotionModule;
@@ -21,7 +22,7 @@ exports.PromotionModule = PromotionModule = __decorate([
     (0, common_1.Module)({
         imports: [typeorm_1.TypeOrmModule.forFeature([promotion_entity_1.Promotion]), product_module_1.ProductModule, user_module_1.UserModule],
         controllers: [promotion_controller_1.PromotionController],
-        providers: [promotion_service_1.PromotionService],
+        providers: [promotion_service_1.PromotionService, jwt_1.JwtService],
         exports: [promotion_service_1.PromotionService],
     })
 ], PromotionModule);

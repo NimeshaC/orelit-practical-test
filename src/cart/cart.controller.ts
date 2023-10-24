@@ -31,7 +31,6 @@ export class CartController {
 
   // find a cart controller
   @Get(":id")
-  @Roles([Role.CUSTOMER])
   findOneById(@Param("id") id: string) {
     return this.cartService.findCartById(id);
   }

@@ -17,6 +17,10 @@ const common_1 = require("@nestjs/common");
 const product_service_1 = require("./product.service");
 const create_product_dto_1 = require("./dto/create-product.dto");
 const update_product_dto_1 = require("./dto/update-product.dto");
+const role_guard_1 = require("../auth/authorization/role.guard");
+const jwt_guard_1 = require("../auth/guards/jwt.guard");
+const roles_enum_1 = require("../auth/authorization/roles.enum");
+const roles_decorator_1 = require("../auth/authorization/roles.decorator");
 let ProductController = class ProductController {
     constructor(productService) {
         this.productService = productService;
@@ -43,6 +47,7 @@ let ProductController = class ProductController {
 exports.ProductController = ProductController;
 __decorate([
     (0, common_1.Post)(),
+    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN, roles_enum_1.Role.SHOP_ADMIN]),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_product_dto_1.CreateProductDto]),
@@ -50,12 +55,14 @@ __decorate([
 ], ProductController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN, roles_enum_1.Role.SHOP_ADMIN]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)("shop/:shopId"),
+    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN, roles_enum_1.Role.SHOP_ADMIN]),
     __param(0, (0, common_1.Param)("shopId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -63,6 +70,7 @@ __decorate([
 ], ProductController.prototype, "findAllByShopId", null);
 __decorate([
     (0, common_1.Get)(":id"),
+    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN, roles_enum_1.Role.SHOP_ADMIN]),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -70,6 +78,7 @@ __decorate([
 ], ProductController.prototype, "findOneById", null);
 __decorate([
     (0, common_1.Patch)(":id"),
+    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN, roles_enum_1.Role.SHOP_ADMIN]),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -78,6 +87,7 @@ __decorate([
 ], ProductController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(":id"),
+    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN, roles_enum_1.Role.SHOP_ADMIN]),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -85,6 +95,8 @@ __decorate([
 ], ProductController.prototype, "remove", null);
 exports.ProductController = ProductController = __decorate([
     (0, common_1.Controller)("product"),
+    (0, common_1.UseGuards)(jwt_guard_1.jwtAuthGuard),
+    (0, common_1.UseGuards)(role_guard_1.RolesGuard),
     __metadata("design:paramtypes", [product_service_1.ProductService])
 ], ProductController);
 //# sourceMappingURL=product.controller.js.map

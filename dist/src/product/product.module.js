@@ -14,6 +14,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const product_entity_1 = require("./entities/product.entity");
 const shop_module_1 = require("../shop/shop.module");
 const user_module_1 = require("../user/user.module");
+const jwt_1 = require("@nestjs/jwt");
 let ProductModule = class ProductModule {
 };
 exports.ProductModule = ProductModule;
@@ -21,7 +22,7 @@ exports.ProductModule = ProductModule = __decorate([
     (0, common_1.Module)({
         imports: [typeorm_1.TypeOrmModule.forFeature([product_entity_1.Product]), shop_module_1.ShopModule, user_module_1.UserModule],
         controllers: [product_controller_1.ProductController],
-        providers: [product_service_1.ProductService],
+        providers: [product_service_1.ProductService, jwt_1.JwtService],
         exports: [product_service_1.ProductService],
     })
 ], ProductModule);

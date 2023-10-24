@@ -26,9 +26,10 @@ let RolesGuard = class RolesGuard {
         }
         const { headers } = context.switchToHttp().getRequest();
         const authorizationHeader = headers.authorization;
-        console.log(authorizationHeader);
+        if (!authorizationHeader) {
+            throw new common_1.UnauthorizedException();
+        }
         const { roleName } = this.jwtService.decode(authorizationHeader.split(" ")[1]);
-        console.log(requiredRoles.includes(roleName));
         return requiredRoles.some((role) => requiredRoles.includes(roleName));
     }
 };

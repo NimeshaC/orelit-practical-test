@@ -18,8 +18,6 @@ const cart_service_1 = require("./cart.service");
 const create_cart_dto_1 = require("./dto/create-cart.dto");
 const update_cart_dto_1 = require("./dto/update-cart.dto");
 const role_guard_1 = require("../auth/authorization/role.guard");
-const roles_enum_1 = require("../auth/authorization/roles.enum");
-const roles_decorator_1 = require("../auth/authorization/roles.decorator");
 const jwt_guard_1 = require("../auth/guards/jwt.guard");
 let CartController = class CartController {
     constructor(cartService) {
@@ -51,7 +49,6 @@ __decorate([
 ], CartController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(":id"),
-    (0, roles_decorator_1.Roles)([roles_enum_1.Role.CUSTOMER]),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

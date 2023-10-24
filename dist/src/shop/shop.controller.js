@@ -17,6 +17,10 @@ const common_1 = require("@nestjs/common");
 const shop_service_1 = require("./shop.service");
 const create_shop_dto_1 = require("./dto/create-shop.dto");
 const update_shop_dto_1 = require("./dto/update-shop.dto");
+const role_guard_1 = require("../auth/authorization/role.guard");
+const jwt_guard_1 = require("../auth/guards/jwt.guard");
+const roles_decorator_1 = require("../auth/authorization/roles.decorator");
+const roles_enum_1 = require("../auth/authorization/roles.enum");
 let ShopController = class ShopController {
     constructor(shopsService) {
         this.shopsService = shopsService;
@@ -43,6 +47,7 @@ let ShopController = class ShopController {
 exports.ShopController = ShopController;
 __decorate([
     (0, common_1.Post)(),
+    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN]),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_shop_dto_1.CreateShopDto]),
@@ -50,12 +55,14 @@ __decorate([
 ], ShopController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ShopController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)("user/:userId"),
+    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN, roles_enum_1.Role.SHOP_ADMIN]),
     __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -63,6 +70,7 @@ __decorate([
 ], ShopController.prototype, "findAllByUserId", null);
 __decorate([
     (0, common_1.Get)(":id"),
+    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN, roles_enum_1.Role.SHOP_ADMIN]),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -70,6 +78,7 @@ __decorate([
 ], ShopController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(":id"),
+    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN, roles_enum_1.Role.SHOP_ADMIN]),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -78,6 +87,7 @@ __decorate([
 ], ShopController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(":id"),
+    (0, roles_decorator_1.Roles)([roles_enum_1.Role.SYSTEM_ADMIN]),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -85,6 +95,8 @@ __decorate([
 ], ShopController.prototype, "remove", null);
 exports.ShopController = ShopController = __decorate([
     (0, common_1.Controller)("shop"),
+    (0, common_1.UseGuards)(jwt_guard_1.jwtAuthGuard),
+    (0, common_1.UseGuards)(role_guard_1.RolesGuard),
     __metadata("design:paramtypes", [shop_service_1.ShopService])
 ], ShopController);
 //# sourceMappingURL=shop.controller.js.map

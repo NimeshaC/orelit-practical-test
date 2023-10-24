@@ -16,6 +16,7 @@ const order_entity_1 = require("./entities/order.entity");
 const cart_module_1 = require("../cart/cart.module");
 const product_module_1 = require("../product/product.module");
 const user_module_1 = require("../user/user.module");
+const jwt_1 = require("@nestjs/jwt");
 let OrderModule = class OrderModule {
 };
 exports.OrderModule = OrderModule;
@@ -28,7 +29,7 @@ exports.OrderModule = OrderModule = __decorate([
             user_module_1.UserModule,
         ],
         controllers: [order_controller_1.OrderController],
-        providers: [order_service_1.OrderService],
+        providers: [order_service_1.OrderService, jwt_1.JwtService],
         exports: [order_service_1.OrderService],
     })
 ], OrderModule);

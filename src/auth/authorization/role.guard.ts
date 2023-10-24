@@ -3,6 +3,7 @@ import {
   CanActivate,
   ExecutionContext,
   Global,
+  UnauthorizedException,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Roles } from "./roles.decorator";
@@ -24,11 +25,12 @@ export class RolesGuard implements CanActivate {
     //Get the user from the request
     const { headers } = context.switchToHttp().getRequest();
     const authorizationHeader = headers.authorization;
-    console.log(authorizationHeader);
+    if (!authorizationHeader) {
+      throw new UnauthorizedException();
+    }
     const { roleName }: any = this.jwtService.decode(
       authorizationHeader.split(" ")[1]
     );
-    console.log(requiredRoles.includes(roleName));
 
     //If the user has the required role, return true
     return requiredRoles.some((role) => requiredRoles.includes(roleName));
